@@ -856,3 +856,7 @@ $max = DB::table('give_donationmeta')
     ->where('meta_key', 'donation_amount')
     ->max('meta_value');
 ```
+
+## Acknowledgements
+
+Props to the [GiveWP](https://github.com/impress-org) team for creating this library!
