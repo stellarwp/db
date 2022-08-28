@@ -11,6 +11,27 @@ use StellarWP\DB\Tests\DBTestCase;
  */
 final class AggregateTest extends DBTestCase
 {
+	public function setUp() {
+		// before
+		parent::setUp();
+
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'give_donationmeta';
+
+		$sql = "
+		CREATE TABLE {$table} (
+			donation_id bigint(20) NOT NULL AUTO_INCREMENT,
+			meta_key varchar(255) NOT NULL,
+			meta_value TEXT,
+			PRIMARY KEY (donation_id),
+			KEY meta_key (meta_key)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		";
+
+		DB::delta( $sql );
+	}
+
 	/**
 	 * Truncate posts and give_donationmeta table to avoid duplicate records
 	 *

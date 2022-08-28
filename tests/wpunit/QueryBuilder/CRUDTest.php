@@ -4,7 +4,7 @@ namespace StellarWP\DB\QueryBuilder;
 namespace StellarWP\DB\QueryBuilder;
 
 use StellarWP\DB\DB;
-use Give\Framework\QueryBuilder\Concerns\CRUD;
+use StellarWP\DB\QueryBuilder\Concerns\CRUD;
 use StellarWP\DB\Tests\DBTestCase;
 
 /**

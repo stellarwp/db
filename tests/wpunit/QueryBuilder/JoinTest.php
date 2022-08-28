@@ -2,7 +2,7 @@
 namespace StellarWP\DB\QueryBuilder;
 
 use StellarWP\DB\DB;
-use Give\Framework\QueryBuilder\JoinQueryBuilder;
+use StellarWP\DB\QueryBuilder\JoinQueryBuilder;
 use StellarWP\DB\QueryBuilder\QueryBuilder;
 use StellarWP\DB\Tests\DBTestCase;
 

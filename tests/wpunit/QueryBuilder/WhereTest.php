@@ -3,7 +3,7 @@ namespace StellarWP\DB\QueryBuilder;
 
 use StellarWP\DB\DB;
 use StellarWP\DB\QueryBuilder\QueryBuilder;
-use Give\Framework\QueryBuilder\WhereQueryBuilder;
+use StellarWP\DB\QueryBuilder\WhereQueryBuilder;
 use InvalidArgumentException;
 use StellarWP\DB\Tests\DBTestCase;
 
