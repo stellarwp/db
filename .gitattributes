@@ -1,0 +1,6 @@
+*               text
+.*              export-ignore
+composer.lock   text -diff
+phpstan.*       export-ignore
+phpunit.*       export-ignore
+tests           export-ignore

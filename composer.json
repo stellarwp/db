@@ -1,0 +1,49 @@
+{
+  "name": "stellarwp/db",
+  "description": "A WPDB wrapper and query builder library.",
+  "type": "library",
+  "license": "GPL-2.0",
+  "autoload": {
+    "psr-4": {
+      "StellarWP\\DB\\": "src/DB/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "StellarWP\\DB\\Tests\\": "tests/_support/Helper/"
+    }
+  },
+  "authors": [
+    {
+      "name": "StellarWP",
+      "email": "dev@stellarwp.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "lucatume/di52": "^3.0"
+  },
+  "require-dev": {
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-cli": "^1.0",
+    "codeception/module-db": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-rest": "^1.0",
+    "codeception/module-webdriver": "^1.0",
+    "codeception/util-universalframework": "^1.0",
+    "lucatume/wp-browser": "^3.0.14",
+    "phpunit/phpunit": "~6.0",
+    "szepeviktor/phpstan-wordpress": "^1.1",
+    "symfony/event-dispatcher-contracts": "^2.5.1",
+    "symfony/string": "^5.4"
+  },
+  "scripts": {
+    "test:analysis": [
+      "phpstan analyse -c phpstan.neon.dist --memory-limit=512M"
+    ]
+  },
+  "scripts-descriptions": {
+    "test:analysis": "Run static code analysis."
+  }
+}
