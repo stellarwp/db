@@ -1,11 +1,4 @@
 <?php
-$travis = getenv( 'TRAVIS' );
-
-// Don't override config vars if running on Travis-CI
-if ( ! empty( $travis ) ) {
-	return;
-}
-
 $slic = getenv( 'STELLAR_SLIC' );
 
 // Set up differently if running in slic
