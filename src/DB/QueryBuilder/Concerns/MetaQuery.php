@@ -75,7 +75,7 @@ trait MetaQuery {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $foreignKey
 	 * @param  string  $primaryKey
-	 * @param  array  $columns
+	 * @param  array|string  $columns
 	 *
 	 * @return $this
 	 */

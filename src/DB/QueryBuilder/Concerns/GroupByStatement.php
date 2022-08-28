@@ -9,7 +9,7 @@ use StellarWP\DB\DB;
  */
 trait GroupByStatement {
 	/**
-	 * @var string
+	 * @var array
 	 */
 	protected $groupByColumns = [];
 

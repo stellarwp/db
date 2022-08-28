@@ -78,7 +78,7 @@ trait WhereClause {
 	}
 
 	/**
-	 * @param  string|Closure  $column  The closure will receive a StellarWP\DB\QueryBuilder\WhereQueryBuilder instance
+	 * @param  string|Closure|null  $column  The closure will receive a StellarWP\DB\QueryBuilder\WhereQueryBuilder instance
 	 * @param  string|Closure|array|null  $value  The closure will receive a StellarWP\DB\QueryBuilder\QueryBuilder instance
 	 * @param  string  $comparisonOperator
 	 *

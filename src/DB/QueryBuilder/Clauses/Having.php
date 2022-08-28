@@ -109,7 +109,7 @@ class Having {
 	/**
 	 * @param  string  $mathFunction
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function getMathFunction( $mathFunction ) {
 		if ( array_key_exists( $mathFunction, Math::getTypes() ) ) {

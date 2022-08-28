@@ -24,7 +24,7 @@ trait JoinClause {
 	 *
 	 * @param  Closure  $callback  The closure will receive a StellarWP\DB\QueryBuilder\JoinQueryBuilder instance
 	 *
-	 * @return $this
+	 * @return static
 	 */
 	public function join( $callback ) {
 		$this->joins[] = $callback;
@@ -38,7 +38,7 @@ trait JoinClause {
 	 * @param  string  $column2
 	 * @param  string|null  $alias
 	 *
-	 * @return $this
+	 * @return static
 	 */
 	public function leftJoin( $table, $column1, $column2, $alias = null ) {
 		$this->join(
@@ -58,7 +58,7 @@ trait JoinClause {
 	 * @param  string  $column2
 	 * @param  string|null  $alias
 	 *
-	 * @return $this
+	 * @return static
 	 */
 	public function innerJoin( $table, $column1, $column2, $alias = null ) {
 		$this->join(
@@ -78,7 +78,7 @@ trait JoinClause {
 	 * @param  string  $column2
 	 * @param  string|null  $alias
 	 *
-	 * @return $this
+	 * @return static
 	 */
 	public function rightJoin( $table, $column1, $column2, $alias = null ) {
 		$this->join(
@@ -99,7 +99,7 @@ trait JoinClause {
 	 * @param  string  $sql
 	 * @param ...$args
 	 *
-	 * @return $this;
+	 * @return static
 	 */
 	public function joinRaw( $sql, ...$args ) {
 		$this->joins[] = new RawSQL( $sql, $args );

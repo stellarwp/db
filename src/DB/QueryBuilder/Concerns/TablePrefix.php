@@ -9,7 +9,7 @@ use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
  */
 trait TablePrefix {
 	/**
-	 * @param  string  $table
+	 * @param  string|RawSQL  $table
 	 *
 	 * @return string
 	 */

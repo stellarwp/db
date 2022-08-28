@@ -21,7 +21,13 @@ trait Aggregate {
 
 		$this->selects[] = new RawSQL( 'SELECT COUNT(%1s) AS count', $column );
 
-		return +$this->get()->count;
+		$result = $this->get();
+
+		if ( is_array( $result ) ) {
+			return +$result['count'];
+		}
+
+		return +$result->count;
 	}
 
 	/**
@@ -35,7 +41,13 @@ trait Aggregate {
 	public function sum( $column ) {
 		$this->selects[] = new RawSQL( 'SELECT SUM(%1s) AS sum', $column );
 
-		return +$this->get()->sum;
+		$result = $this->get();
+
+		if ( is_array( $result ) ) {
+			return +$result['sum'];
+		}
+
+		return +$result->sum;
 	}
 
 	/**
@@ -49,7 +61,13 @@ trait Aggregate {
 	public function avg( $column ) {
 		$this->selects[] = new RawSQL( 'SELECT AVG(%1s) AS avg', $column );
 
-		return +$this->get()->avg;
+		$result = $this->get();
+
+		if ( is_array( $result ) ) {
+			return +$result['avg'];
+		}
+
+		return +$result->avg;
 	}
 
 	/**
@@ -63,7 +81,13 @@ trait Aggregate {
 	public function min( $column ) {
 		$this->selects[] = new RawSQL( 'SELECT MIN(%1s) AS min', $column );
 
-		return +$this->get()->min;
+		$result = $this->get();
+
+		if ( is_array( $result ) ) {
+			return +$result['min'];
+		}
+
+		return +$result->min;
 	}
 
 	/**
@@ -77,6 +101,12 @@ trait Aggregate {
 	public function max( $column ) {
 		$this->selects[] = new RawSQL( 'SELECT MAX(%1s) AS max', $column );
 
-		return +$this->get()->max;
+		$result = $this->get();
+
+		if ( is_array( $result ) ) {
+			return +$result['max'];
+		}
+
+		return +$result->max;
 	}
 }

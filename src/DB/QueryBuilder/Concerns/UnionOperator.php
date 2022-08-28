@@ -10,7 +10,7 @@ use StellarWP\DB\QueryBuilder\QueryBuilder;
  */
 trait UnionOperator {
 	/**
-	 * @var int
+	 * @var array
 	 */
 	protected $unions = [];
 

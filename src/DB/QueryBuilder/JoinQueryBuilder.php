@@ -110,8 +110,8 @@ class JoinQueryBuilder {
 	/**
 	 * Add raw SQL JOIN clause
 	 *
-	 * @param  string  $sql
-	 * @param ...$args
+	 * @param string  $sql
+	 * @param array<int,mixed> ...$args
 	 */
 	public function joinRaw( $sql, ...$args ) {
 		$this->joins[] = new RawSQL( $sql, $args );
@@ -158,7 +158,7 @@ class JoinQueryBuilder {
 	}
 
 	/**
-	 * @return Join[]|JoinCondition[]
+	 * @return Join[]|JoinCondition[]|RawSQL[]
 	 */
 	public function getDefinedJoins() {
 		return $this->joins;

@@ -15,7 +15,7 @@ class RawSQL {
 
 	/**
 	 * @param  string  $sql
-	 * @param  null  $args
+	 * @param  array<int,mixed>|string|null  $args
 	 */
 	public function __construct( $sql, $args = null ) {
 		$this->sql = $args ? DB::prepare( $sql, $args ) : $sql;

@@ -32,9 +32,9 @@ trait CRUD {
 	 *
 	 * @since 2.19.0
 	 *
-	 * @param  null  $format
-	 *
 	 * @param  array  $data
+	 * @param  array|string|null  $format
+	 *
 	 * @return false|int
 	 *
 	 */
@@ -68,7 +68,7 @@ trait CRUD {
 	 *
 	 * @since 2.19.0
 	 *
-	 * @param  string ARRAY_A|ARRAY_N|OBJECT|OBJECT_K $output
+	 * @param  string $output ARRAY_A|ARRAY_N|OBJECT|OBJECT_K
 	 *
 	 * @return array|object|null
 	 */
@@ -81,7 +81,7 @@ trait CRUD {
 	 *
 	 * @since 2.19.0
 	 *
-	 * @param  string ARRAY_A|ARRAY_N|OBJECT|OBJECT_K $output
+	 * @param  string $output ARRAY_A|ARRAY_N|OBJECT|OBJECT_K
 	 *
 	 * @return array|object|null
 	 */

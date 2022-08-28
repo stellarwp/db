@@ -26,7 +26,7 @@ trait SelectStatement {
 	private $includeSelectKeyword = true;
 
 	/**
-	 * @param  array  $columns
+	 * @param  array|string  $columns
 	 *
 	 * @return $this
 	 */
