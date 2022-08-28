@@ -1,6 +1,8 @@
-# Query Builder
+# DB
 
-Query Builder helper class is used to write SQL queries
+A WPDB wrapper and query builder library.
+
+## Table of contents
 
 - [DB](#db)
 
