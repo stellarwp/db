@@ -5,13 +5,13 @@ namespace StellarWP\DB\QueryBuilder\Concerns;
 use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait Aggregate {
 	/**
 	 * Returns the number of rows returned by a query
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 * @param  null|string  $column
 	 *
 	 * @return int
@@ -33,7 +33,7 @@ trait Aggregate {
 	/**
 	 * Returns the total sum in a set of values
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 * @param  string  $column
 	 *
 	 * @return int|float
@@ -53,7 +53,7 @@ trait Aggregate {
 	/**
 	 * Get the average value in a set of values
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 * @param  string  $column
 	 *
 	 * @return int|float
@@ -73,7 +73,7 @@ trait Aggregate {
 	/**
 	 * Returns the minimum value in a set of values
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 * @param  string  $column
 	 *
 	 * @return int|float
@@ -93,7 +93,7 @@ trait Aggregate {
 	/**
 	 * Returns the maximum value in a set of values
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 * @param  string  $column
 	 *
 	 * @return int|float

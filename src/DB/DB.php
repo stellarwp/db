@@ -50,7 +50,7 @@ class DB {
 	 *
 	 * @see dbDelta() for parameter and return details
 	 *
-	 * @since 2.9.2
+	 * @since 1.0.0
 	 *
 	 * @param $delta
 	 *
@@ -70,7 +70,7 @@ class DB {
 	 *
 	 * @see WPDB::prepare() for usage details
 	 *
-	 * @since 2.9.6
+	 * @since 1.0.0
 	 *
 	 * @param string $query
 	 * @param mixed ...$args
@@ -86,8 +86,8 @@ class DB {
 	/**
 	 * Magic method which calls the static method on the $wpdb while performing error checking
 	 *
-	 * @since 2.22.0 add givewp_db_pre_query action
-	 * @since 2.9.6
+	 * @since 1.0.0 add givewp_db_pre_query action
+	 * @since 1.0.0
 	 *
 	 * @param $name
 	 * @param $arguments
@@ -119,7 +119,7 @@ class DB {
 	/**
 	 * Get last insert ID
 	 *
-	 * @since 2.10.0
+	 * @since 1.0.0
 	 * @return int
 	 */
 	public static function last_insert_id() {
@@ -160,7 +160,7 @@ class DB {
 	 * Runs a transaction. If the callable works then the transaction is committed. If the callable throws an exception
 	 * then the transaction is rolled back.
 	 *
-	 * @since 2.19.6
+	 * @since 1.0.0
 	 *
 	 * @param callable $callback
 	 *
@@ -183,7 +183,7 @@ class DB {
 	/**
 	 * Manually starts a transaction
 	 *
-	 * @since 2.19.6
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class DB {
 	/**
 	 * Manually rolls back a transaction
 	 *
-	 * @since 2.19.6
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class DB {
 	/**
 	 * Manually commits a transaction
 	 *
-	 * @since 2.19.6
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class DB {
 	/**
 	 * Runs a query callable and checks to see if any unique SQL errors occurred when it was run
 	 *
-	 * @since 2.9.2
+	 * @since 1.0.0
 	 *
 	 * @param Callable $queryCaller
 	 *
@@ -264,7 +264,7 @@ class DB {
 	/**
 	 * Retrieves the SQL errors stored by WordPress
 	 *
-	 * @since 2.9.2
+	 * @since 1.0.0
 	 *
 	 * @param int $initialCount
 	 *

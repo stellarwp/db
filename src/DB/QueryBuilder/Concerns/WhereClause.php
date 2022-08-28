@@ -12,7 +12,7 @@ use StellarWP\DB\QueryBuilder\WhereQueryBuilder;
 
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait WhereClause {
 

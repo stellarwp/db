@@ -7,7 +7,7 @@ use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 use StellarWP\DB\QueryBuilder\Clauses\Select;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait SelectStatement {
 	/**

@@ -5,7 +5,7 @@ namespace StellarWP\DB\QueryBuilder\Concerns;
 use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait TablePrefix {
 	/**

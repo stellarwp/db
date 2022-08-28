@@ -7,7 +7,7 @@ use StellarWP\DB\QueryBuilder\Clauses\From;
 use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait FromClause {
 	/**

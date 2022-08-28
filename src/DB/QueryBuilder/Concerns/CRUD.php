@@ -5,13 +5,13 @@ namespace StellarWP\DB\QueryBuilder\Concerns;
 use StellarWP\DB\DB;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait CRUD {
 	/**
 	 * @see https://developer.wordpress.org/reference/classes/wpdb/insert/
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @param  array|string  $format
 	 *
@@ -30,7 +30,7 @@ trait CRUD {
 	/**
 	 * @see https://developer.wordpress.org/reference/classes/wpdb/update/
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @param  array  $data
 	 * @param  array|string|null  $format
@@ -49,7 +49,7 @@ trait CRUD {
 	}
 
 	/**
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @return false|int
 	 *
@@ -66,7 +66,7 @@ trait CRUD {
 	/**
 	 * Get results
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @param  string $output ARRAY_A|ARRAY_N|OBJECT|OBJECT_K
 	 *
@@ -79,7 +79,7 @@ trait CRUD {
 	/**
 	 * Get row
 	 *
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @param  string $output ARRAY_A|ARRAY_N|OBJECT|OBJECT_K
 	 *
@@ -90,7 +90,7 @@ trait CRUD {
 	}
 
 	/**
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -99,7 +99,7 @@ trait CRUD {
 	}
 
 	/**
-	 * @since 2.19.0
+	 * @since 1.0.0
 	 *
 	 * @return array[]
 	 */

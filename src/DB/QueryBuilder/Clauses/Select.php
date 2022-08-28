@@ -3,7 +3,7 @@
 namespace StellarWP\DB\QueryBuilder\Clauses;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 class Select {
 	/**

@@ -6,7 +6,7 @@ use StellarWP\DB\DB;
 use StellarWP\DB\QueryBuilder\Clauses\OrderBy;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait OrderByStatement {
 	/**

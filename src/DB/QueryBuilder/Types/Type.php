@@ -5,7 +5,7 @@ namespace StellarWP\DB\QueryBuilder\Types;
 use ReflectionClass;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 abstract class Type {
 	/**

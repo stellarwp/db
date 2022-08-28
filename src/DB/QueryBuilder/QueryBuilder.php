@@ -18,7 +18,7 @@ use StellarWP\DB\QueryBuilder\Concerns\UnionOperator;
 use StellarWP\DB\QueryBuilder\Concerns\WhereClause;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 class QueryBuilder {
 	use Aggregate;

@@ -3,7 +3,7 @@
 namespace StellarWP\DB\QueryBuilder\Types;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 class Operator extends Type {
 	// _AND and _OR constants are prefixed with underscore to be compatible with PHP 5.6

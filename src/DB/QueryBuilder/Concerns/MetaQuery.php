@@ -8,7 +8,7 @@ use StellarWP\DB\QueryBuilder\JoinQueryBuilder;
 use StellarWP\DB\QueryBuilder\QueryBuilder;
 
 /**
- * @since 2.19.0
+ * @since 1.0.0
  */
 trait MetaQuery {
 
@@ -68,9 +68,9 @@ trait MetaQuery {
 	/**
 	 * Select meta columns
 	 *
-	 * @since 2.21.1 optimize group concat functionality
-	 * @since 2.19.6 add group concat functionality
-	 * @since 2.19.0
+	 * @since 1.0.0 optimize group concat functionality
+	 * @since 1.0.0 add group concat functionality
+	 * @since 1.0.0
 	 *
 	 * @param  string|RawSQL  $table
 	 * @param  string  $foreignKey
