@@ -3,7 +3,6 @@
 namespace StellarWP\DB;
 
 use Exception;
-use lucatume\DI52\App;
 use StellarWP\DB\Database\Exceptions\DatabaseQueryException;
 use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 use StellarWP\DB\QueryBuilder\QueryBuilder;
@@ -30,19 +29,32 @@ use WP_Error;
  */
 class DB {
 	/**
+	 * Is this library initialized?
+	 *
+	 * @var bool
+	 */
+	private static $initialized = false;
+
+	/**
+	 * The Database\Provider instance.
+	 *
+	 * @var Database\Provider
+	 */
+	private static $provider;
+
+	/**
 	 * Initializes the service provider.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function init(): void {
-		$container = App::container();
-
-		if ( $container->getVar( 'stellarwp_db_initialized', false ) ) {
+		if ( ! static::$initialized ) {
 			return;
 		}
 
-		$container->register( Database\Provider::class );
-		$container->setVar( 'stellarwp_db_initialized', true );
+		static::$provider = new Database\Provider();
+		static::$provider->register();
+		static::$initialized = true;
 	}
 
 	/**
@@ -101,6 +113,19 @@ class DB {
 				global $wpdb;
 
 				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true) ) {
+					$hook_prefix = Config::getHookPrefix();
+
+					if ( $hook_prefix ) {
+						/**
+						 * Allow for hooking just before query execution.
+						 *
+						 * @since 1.0.0
+						 *
+						 * @param string $argument
+						 */
+						do_action( "{$hook_prefix}_stellarwp_db_pre_query", current( $arguments ), $hook_prefix );
+					}
+
 					/**
 					 * Allow for hooking just before query execution.
 					 *
@@ -108,7 +133,7 @@ class DB {
 					 *
 					 * @param string $argument
 					 */
-					do_action( 'stellarwp_db_pre_query', current( $arguments ) );
+					do_action( 'stellarwp_db_pre_query', current( $arguments ), $hook_prefix );
 				}
 
 				return call_user_func_array( [ $wpdb, $name ], $arguments );
@@ -172,7 +197,7 @@ class DB {
 
 		try {
 			$callback();
-		} catch (Exception $e) {
+		} catch ( Exception $e ) {
 			self::rollback();
 			throw $e;
 		}
@@ -255,7 +280,10 @@ class DB {
 		$wpError = self::getQueryErrors( $errorCount );
 
 		if ( ! empty( $wpError->errors ) ) {
-			throw new DatabaseQueryException( $wpdb->last_query, $wpError->errors );
+			/** @var DatabaseQueryException */
+			$exception_class = Config::getDatabaseQueryException();
+
+			throw new $exception_class( $wpdb->last_query, $wpError->errors );
 		}
 
 		return $output;

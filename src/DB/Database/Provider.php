@@ -2,10 +2,11 @@
 
 namespace StellarWP\DB\Database;
 
-use lucatume\DI52\App;
-use lucatume\DI52\ServiceProvider;
-
-class Provider extends ServiceProvider {
+class Provider {
+	/**
+	 * @var Actions\EnableBigSqlSelects
+	 */
+	public $action_enable_big_sql_selects;
 
 	/**
 	 * Binds and sets up implementations.
@@ -13,17 +14,17 @@ class Provider extends ServiceProvider {
 	 * @since 1.0.0
 	 */
 	public function register() {
-		$this->container->singleton( static::class, $this );
-		$this->container->singleton( Actions\EnableBigSqlSelects::class, Actions\EnableBigSqlSelects::class );
-		$this->register_hooks();
+		add_action( 'stellarwp_db_pre_query', [ $this, 'enable_big_sql_selects' ] );
 	}
 
 	/**
-	 * Registers all hooks.
-	 *
-	 * @since 1.0.0
+	 * Fires the EnableBigSqlSelects action.
 	 */
-	private function register_hooks() : void {
-		add_action( 'stellarwp_db_pre_query', App::callback( Actions\EnableBigSqlSelects::class, 'set_var' ) );
+	public function enable_big_sql_selects() {
+		if ( ! $this->action_enable_big_sql_selects ) {
+			$this->action_enable_big_sql_selects = new Actions\EnableBigSqlSelects();
+		}
+
+		$this->action_enable_big_sql_selects->set_var();
 	}
 }
