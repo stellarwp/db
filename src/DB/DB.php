@@ -48,13 +48,13 @@ class DB {
 	 * @since 1.0.0
 	 */
 	public static function init(): void {
-		if ( ! static::$initialized ) {
+		if ( ! self::$initialized ) {
 			return;
 		}
 
-		static::$provider = new Database\Provider();
-		static::$provider->register();
-		static::$initialized = true;
+		self::$provider = new Database\Provider();
+		self::$provider->register();
+		self::$initialized = true;
 	}
 
 	/**
@@ -121,7 +121,8 @@ class DB {
 						 *
 						 * @since 1.0.0
 						 *
-						 * @param string $argument
+						 * @param string $argument First argument passed to the $wpdb method.
+						 * @param string $hook_prefix Prefix for the hook.
 						 */
 						do_action( "{$hook_prefix}_stellarwp_db_pre_query", current( $arguments ), $hook_prefix );
 					}
@@ -131,7 +132,8 @@ class DB {
 					 *
 					 * @since 1.0.0
 					 *
-					 * @param string $argument
+					 * @param string $argument First argument passed to the $wpdb method.
+					 * @param string $hook_prefix Prefix for the hook.
 					 */
 					do_action( 'stellarwp_db_pre_query', current( $arguments ), $hook_prefix );
 				}

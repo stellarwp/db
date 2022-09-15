@@ -21,7 +21,7 @@ class Provider {
 	 * Fires the EnableBigSqlSelects action.
 	 */
 	public function enable_big_sql_selects() {
-		if ( ! $this->action_enable_big_sql_selects ) {
+		if ( $this->action_enable_big_sql_selects === null ) {
 			$this->action_enable_big_sql_selects = new Actions\EnableBigSqlSelects();
 		}
 

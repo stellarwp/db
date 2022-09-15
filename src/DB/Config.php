@@ -2,7 +2,7 @@
 
 namespace StellarWP\DB;
 
-use Database\Exceptions\DatabaseQueryException;
+use StellarWP\DB\Database\Exceptions\DatabaseQueryException;
 
 class Config {
 	/**
@@ -21,7 +21,7 @@ class Config {
 	 * @return string
 	 */
 	public static function getDatabaseQueryException() {
-		return static::$databaseQueryException;
+		return self::$databaseQueryException;
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Config {
 	 * @return string
 	 */
 	public static function getHookPrefix() {
-		return static::$hookPrefix;
+		return self::$hookPrefix;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Config {
 	 * @return void
 	 */
 	public static function setDatabaseQueryException( string $class ) {
-		static::$databaseQueryException = $class;
+		self::$databaseQueryException = $class;
 	}
 
 	/**
@@ -52,6 +52,6 @@ class Config {
 	 * @return void
 	 */
 	public static function setHookPrefix( string $prefix ) {
-		static::$hookPrefix = $prefix;
+		self::$hookPrefix = $prefix;
 	}
 }
