@@ -73,10 +73,10 @@ composer require stellarwp/db
 
 Getting up and running with this library is easy. You'll want to initialize the `DB` class. Doing so during the `plugins_loaded` action is a reasonable location, though you can do it anywhere that feels appropriate.
 
-_For this example and all future ones, let's assume you have [included this library with Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md) and your project's namespace is `Boomshakalaka`._
+_For this example and all future ones, let's assume you have [included this library with Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md) and your project's namespace is `Boom\Shakalaka`._
 
 ```php
-use Boomshakalaka\StellarWP\DB\DB;
+use Boom\Shakalaka\StellarWP\DB\DB;
 
 add_action( 'plugins_loaded', function() {
 	DB::init();
@@ -87,10 +87,10 @@ The two main classes that make up the core of this library are the `DB` class an
 
 ```php
 # For DB, it is "StellarWP\DB\DB", but with your namespace prefix it'll be:
-use Boomshakalaka\StellarWP\DB\DB;
+use Boom\Shakalaka\StellarWP\DB\DB;
 
 # For QueryBuilder, it is "StellarWP\DB\QueryBuilder\QueryBuilder", but with your namespace prefix it'll be:
-use Boomshakalaka\StellarWP\DB\QueryBuilder\QueryBuilder;
+use Boom\Shakalaka\StellarWP\DB\QueryBuilder\QueryBuilder;
 ```
 
 ## Configuration
@@ -98,7 +98,7 @@ use Boomshakalaka\StellarWP\DB\QueryBuilder\QueryBuilder;
 This library provides default hooks and exceptions, however, if you have additional needs for your own application, you can override one or both via the `StellarWP\DB\Config` class:
 
 ```php
-use Boomshakalaka\StellarWP\DB\Config;
+use Boom\Shakalaka\StellarWP\DB\Config;
 
 // Ensure hooks are prefixed with your project's prefix.
 Config::setHookPrefix( 'boom_shakalaka' );
