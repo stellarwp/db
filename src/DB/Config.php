@@ -20,7 +20,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function getDatabaseQueryException() {
+	public static function getDatabaseQueryException(): string {
 		return self::$databaseQueryException;
 	}
 
@@ -29,7 +29,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function getHookPrefix() {
+	public static function getHookPrefix(): string {
 		return self::$hookPrefix;
 	}
 
@@ -41,6 +41,10 @@ class Config {
 	 * @return void
 	 */
 	public static function setDatabaseQueryException( string $class ) {
+		if ( ! is_a( $class, DatabaseQueryException::class, true ) ) {
+			throw new \InvalidArgumentException( 'The provided DatabaseQueryException class must be or must extend ' . __NAMESPACE__ . '\Database\Exceptions\DatabaseQueryException.' );
+		}
+
 		self::$databaseQueryException = $class;
 	}
 
