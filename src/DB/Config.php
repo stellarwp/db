@@ -10,7 +10,7 @@ namespace StellarWP\DB;
  */
 class Config {
 	/**
-	 * @var ConfigComponents
+	 * @var Contracts\ConfigComponents
 	 */
 	protected static $configComponents;
 
@@ -18,8 +18,6 @@ class Config {
 	 * Sets the ConfigComponents for this class.
 	 *
 	 * @param Contracts\ConfigComponents|null $configComponents Config components.
-	 *
-	 * @return static
 	 */
 	public static function setConfigComponents( ?Contracts\ConfigComponents $configComponents = null ) {
 		static::$configComponents = $configComponents;
