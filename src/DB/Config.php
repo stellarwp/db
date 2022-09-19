@@ -42,7 +42,7 @@ class Config {
 	 */
 	public static function setDatabaseQueryException( string $class ) {
 		if ( ! is_a( $class, DatabaseQueryException::class, true ) ) {
-			throw new \InvalidArgumentException( 'The provided DatabaseQueryException class must be or must extend ' . __NAMESPACE__ . '\Database\Exceptions\DatabaseQueryException.' );
+			throw new \InvalidArgumentException( 'The provided DatabaseQueryException class must be or must extend ' . DatabaseQueryException::class . '.' );
 		}
 
 		self::$databaseQueryException = $class;
