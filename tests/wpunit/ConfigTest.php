@@ -53,4 +53,25 @@ class ConfigTest extends DBTestCase {
 
 		$this->assertEquals( DatabaseQueryException::class, Config::getDatabaseQueryException() );
 	}
+
+	/**
+	 * @test
+	 */
+	public function should_be_mockable() {
+		$class = new class extends Config {
+			protected function getDatabaseQueryException() : string {
+				return ValidDatabaseQueryException::class;
+			}
+
+			protected function getHookPrefix() : string {
+				return 'bork';
+			}
+		};
+
+		Config::instance( $class );
+
+		$this->assertInstanceOf( Config::class, $class );
+		$this->assertEquals( 'bork', Config::getHookPrefix() );
+		$this->assertEquals( ValidDatabaseQueryException::class, Config::getDatabaseQueryException() );
+	}
 }
