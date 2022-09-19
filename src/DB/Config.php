@@ -100,6 +100,31 @@ class Config {
 	}
 
 	/**
+	 * Magic method which calls the methods from the instance.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param string $name Name of method being called statically.
+	 * @param mixed $arguments Arguments passed to the method.
+	 *
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		$validMethods = [
+			'getDatabaseQueryException',
+			'getHookPrefix',
+			'setDatabaseQueryException',
+			'setHookPrefix',
+		];
+
+		if ( in_array( $name, $validMethods ) ) {
+			return $this->$name( ...$arguments );
+		}
+
+		throw new \BadMethodCallException( 'Method ' . $name . ' does not exist.' );
+	}
+
+	/**
 	 * Magic method which calls the methods from an instance.
 	 *
 	 * @since 1.0.1
