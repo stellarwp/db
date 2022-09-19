@@ -115,6 +115,16 @@ class DB {
 				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true) ) {
 					$hook_prefix = Config::getHookPrefix();
 
+					/**
+					 * Allow for hooking just before query execution.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param string $argument First argument passed to the $wpdb method.
+					 * @param string $hook_prefix Prefix for the hook.
+					 */
+					do_action( 'stellarwp_db_pre_query', current( $arguments ), $hook_prefix );
+
 					if ( $hook_prefix ) {
 						/**
 						 * Allow for hooking just before query execution.
@@ -126,16 +136,6 @@ class DB {
 						 */
 						do_action( "{$hook_prefix}_stellarwp_db_pre_query", current( $arguments ), $hook_prefix );
 					}
-
-					/**
-					 * Allow for hooking just before query execution.
-					 *
-					 * @since 1.0.0
-					 *
-					 * @param string $argument First argument passed to the $wpdb method.
-					 * @param string $hook_prefix Prefix for the hook.
-					 */
-					do_action( 'stellarwp_db_pre_query', current( $arguments ), $hook_prefix );
 				}
 
 				return call_user_func_array( [ $wpdb, $name ], $arguments );
