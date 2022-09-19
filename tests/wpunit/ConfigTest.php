@@ -97,4 +97,14 @@ class ConfigTest extends DBTestCase {
 		$this->assertEquals( 'bork', Config::getHookPrefix() );
 		$this->assertEquals( ValidDatabaseQueryException::class, Config::getDatabaseQueryException() );
 	}
+
+	/**
+	 * @test
+	 */
+	public function should_be_able_to_null_components() {
+		Config::setConfigComponents( null );
+
+		$this->assertEquals( '', Config::getHookPrefix() );
+		$this->assertEquals( DatabaseQueryException::class, Config::getDatabaseQueryException() );
+	}
 }
