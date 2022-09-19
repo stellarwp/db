@@ -12,14 +12,14 @@ class DBTest extends DBTestCase {
 		parent::setUp();
 
 		// Ensure config is nice and fresh each test.
-		Config::instance( new Config() );
+		Config::setConfigComponents( new ConfigComponents() );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
 
 		// Ensure config is nice and fresh after each test.
-		Config::instance( new Config() );
+		Config::setConfigComponents( new ConfigComponents() );
 	}
 
 	public function callWithPrefix() {

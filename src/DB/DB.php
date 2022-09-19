@@ -109,16 +109,12 @@ class DB {
 	 * @throws DatabaseQueryException
 	 */
 	public static function __callStatic( $name, $arguments ) {
-		if ( $name === 'config' ) {
-			return Config::instance();
-		}
-
 		return self::runQueryWithErrorChecking(
 			static function () use ( $name, $arguments ) {
 				global $wpdb;
 
 				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true) ) {
-					$hook_prefix = static::config()->getHookPrefix();
+					$hook_prefix = Config::getHookPrefix();
 
 					/**
 					 * Allow for hooking just before query execution.
@@ -288,7 +284,7 @@ class DB {
 
 		if ( ! empty( $wpError->errors ) ) {
 			/** @var DatabaseQueryException */
-			$exception_class = static::config()->getDatabaseQueryException();
+			$exception_class = Config::getDatabaseQueryException();
 
 			throw new $exception_class( $wpdb->last_query, $wpError->errors );
 		}

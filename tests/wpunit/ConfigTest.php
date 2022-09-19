@@ -12,14 +12,14 @@ class ConfigTest extends DBTestCase {
 		parent::setUp();
 
 		// Ensure config is nice and fresh each test.
-		Config::instance( new Config() );
+		Config::setConfigComponents( new ConfigComponents() );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
 
 		// Ensure config is nice and fresh after each test.
-		Config::instance( new Config() );
+		Config::setConfigComponents( new ConfigComponents() );
 	}
 
 	/**
@@ -57,20 +57,43 @@ class ConfigTest extends DBTestCase {
 	/**
 	 * @test
 	 */
-	public function should_be_mockable() {
-		$class = new class extends Config {
-			protected function getDatabaseQueryException() : string {
+	public function should_be_extendable() {
+		$class = new class extends ConfigComponents {
+			public function getDatabaseQueryException() : string {
 				return ValidDatabaseQueryException::class;
 			}
 
-			protected function getHookPrefix() : string {
+			public function getHookPrefix() : string {
 				return 'bork';
 			}
 		};
 
-		Config::instance( $class );
+		Config::setConfigComponents( $class );
 
-		$this->assertInstanceOf( Config::class, $class );
+		$this->assertEquals( 'bork', Config::getHookPrefix() );
+		$this->assertEquals( ValidDatabaseQueryException::class, Config::getDatabaseQueryException() );
+	}
+
+	/**
+	 * @test
+	 */
+	public function should_be_mockable() {
+		$class = new class implements Contracts\ConfigComponents {
+			public function getDatabaseQueryException() : string {
+				return ValidDatabaseQueryException::class;
+			}
+
+			public function getHookPrefix() : string {
+				return 'bork';
+			}
+
+			public function setDatabaseQueryException( string $class ) {}
+
+			public function setHookPrefix( string $prefix ) {}
+		};
+
+		Config::setConfigComponents( $class );
+
 		$this->assertEquals( 'bork', Config::getHookPrefix() );
 		$this->assertEquals( ValidDatabaseQueryException::class, Config::getDatabaseQueryException() );
 	}
