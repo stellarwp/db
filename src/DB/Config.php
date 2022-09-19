@@ -58,6 +58,10 @@ class Config {
 	/**
 	 * Gets the DatabaseQueryException class.
 	 *
+	 * This is protected to allow this method to be called "statically" via
+	 * __callStatic(), however this is callable from the Config instance
+	 * via __call().
+	 *
 	 * @return string
 	 */
 	protected function getDatabaseQueryException(): string {
@@ -67,6 +71,10 @@ class Config {
 	/**
 	 * Gets the hook prefix.
 	 *
+	 * This is protected to allow this method to be called "statically" via
+	 * __callStatic(), however this is callable from the Config instance
+	 * via __call().
+	 *
 	 * @return string
 	 */
 	protected function getHookPrefix(): string {
@@ -75,6 +83,10 @@ class Config {
 
 	/**
 	 * Sets the DatabaseQueryException class.
+	 *
+	 * This is protected to allow this method to be called "statically" via
+	 * __callStatic(), however this is callable from the Config instance
+	 * via __call().
 	 *
 	 * @param string $class Class name of the DatabaseQueryException to use.
 	 *
@@ -91,6 +103,10 @@ class Config {
 	/**
 	 * Sets the hook prefix.
 	 *
+	 * This is protected to allow this method to be called "statically" via
+	 * __callStatic(), however this is callable from the Config instance
+	 * via __call().
+	 *
 	 * @param string $prefix The prefix to add to hooks.
 	 *
 	 * @return void
@@ -104,20 +120,20 @@ class Config {
 	 *
 	 * @since 1.0.1
 	 *
-	 * @param string $name Name of method being called statically.
-	 * @param mixed $arguments Arguments passed to the method.
+	 * @param string $name Name of method being called.
+	 * @param array $arguments Arguments passed to the method.
 	 *
 	 * @return mixed
 	 */
-	public function __call( $name, $arguments ) {
+	public function __call( string $name, array $arguments ) {
 		$validMethods = [
-			'getDatabaseQueryException',
-			'getHookPrefix',
-			'setDatabaseQueryException',
-			'setHookPrefix',
+			'getDatabaseQueryException' => true,
+			'getHookPrefix'             => true,
+			'setDatabaseQueryException' => true,
+			'setHookPrefix'             => true,
 		];
 
-		if ( in_array( $name, $validMethods ) ) {
+		if ( isset( $validMethods[ $name ] ) ) {
 			return $this->$name( ...$arguments );
 		}
 
@@ -130,11 +146,11 @@ class Config {
 	 * @since 1.0.1
 	 *
 	 * @param string $name Name of method being called statically.
-	 * @param mixed $arguments Arguments passed to the method.
+	 * @param array $arguments Arguments passed to the method.
 	 *
 	 * @return mixed
 	 */
-	public static function __callStatic( $name, $arguments ) {
+	public static function __callStatic( string $name, array $arguments ) {
 		return static::instance()->$name( ...$arguments );
 	}
 }
