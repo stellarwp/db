@@ -4,24 +4,64 @@ namespace StellarWP\DB;
 
 use StellarWP\DB\Database\Exceptions\DatabaseQueryException;
 
+/**
+ * @method static string getDatabaseQueryException()
+ * @method static string getHookPrefix()
+ * @method static void setDatabaseQueryException(string $class)
+ * @method static void setHookPrefix(string $prefix)
+ */
 class Config {
 	/**
-	 * @var string
+	 * Config instance.
+	 *
+	 * @var static
 	 */
-	private static $databaseQueryException = DatabaseQueryException::class;
+	protected static $instance;
 
 	/**
 	 * @var string
 	 */
-	private static $hookPrefix = '';
+	protected $databaseQueryException = DatabaseQueryException::class;
+
+	/**
+	 * @var string
+	 */
+	protected $hookPrefix = '';
+
+	/**
+	 * Get an instance of this class.
+	 *
+	 * @param static $instance
+	 *
+	 * @return static
+	 */
+	public static function instance( $instance = null ) {
+
+		if ( $instance ) {
+			if ( ! $instance instanceof static ) {
+				throw new \InvalidArgumentException( 'The provided instance must be or must be a child of ' . static::class . '.' );
+			}
+
+			static::$instance = $instance;
+		} elseif ( static::$instance === null ) {
+			static::$instance = new static();
+		}
+
+		return static::$instance;
+	}
+
+	/**
+	 * Constructor.
+	 */
+	final public function __construct() {}
 
 	/**
 	 * Gets the DatabaseQueryException class.
 	 *
 	 * @return string
 	 */
-	public static function getDatabaseQueryException(): string {
-		return self::$databaseQueryException;
+	protected function getDatabaseQueryException(): string {
+		return $this->databaseQueryException;
 	}
 
 	/**
@@ -29,8 +69,8 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function getHookPrefix(): string {
-		return self::$hookPrefix;
+	protected function getHookPrefix(): string {
+		return $this->hookPrefix;
 	}
 
 	/**
@@ -40,12 +80,12 @@ class Config {
 	 *
 	 * @return void
 	 */
-	public static function setDatabaseQueryException( string $class ) {
+	protected function setDatabaseQueryException( string $class ) {
 		if ( ! is_a( $class, DatabaseQueryException::class, true ) ) {
 			throw new \InvalidArgumentException( 'The provided DatabaseQueryException class must be or must extend ' . DatabaseQueryException::class . '.' );
 		}
 
-		self::$databaseQueryException = $class;
+		$this->databaseQueryException = $class;
 	}
 
 	/**
@@ -55,7 +95,21 @@ class Config {
 	 *
 	 * @return void
 	 */
-	public static function setHookPrefix( string $prefix ) {
-		self::$hookPrefix = $prefix;
+	protected function setHookPrefix( string $prefix ) {
+		$this->hookPrefix = $prefix;
+	}
+
+	/**
+	 * Magic method which calls the methods from an instance.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param string $name Name of method being called statically.
+	 * @param mixed $arguments Arguments passed to the method.
+	 *
+	 * @return mixed
+	 */
+	public static function __callStatic( $name, $arguments ) {
+		return static::instance()->$name( ...$arguments );
 	}
 }

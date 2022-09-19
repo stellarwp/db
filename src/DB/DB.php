@@ -26,6 +26,7 @@ use WP_Error;
  * @method static string get_charset_collate()
  * @method static string esc_like(string $text)
  * @method static string remove_placeholder_escape(string $text)
+ * @method static Config config()
  */
 class DB {
 	/**
@@ -108,12 +109,16 @@ class DB {
 	 * @throws DatabaseQueryException
 	 */
 	public static function __callStatic( $name, $arguments ) {
+		if ( $name === 'config' ) {
+			return Config::instance();
+		}
+
 		return self::runQueryWithErrorChecking(
 			static function () use ( $name, $arguments ) {
 				global $wpdb;
 
 				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true) ) {
-					$hook_prefix = Config::getHookPrefix();
+					$hook_prefix = static::config()->getHookPrefix();
 
 					/**
 					 * Allow for hooking just before query execution.
@@ -283,7 +288,7 @@ class DB {
 
 		if ( ! empty( $wpError->errors ) ) {
 			/** @var DatabaseQueryException */
-			$exception_class = Config::getDatabaseQueryException();
+			$exception_class = static::config()->getDatabaseQueryException();
 
 			throw new $exception_class( $wpdb->last_query, $wpError->errors );
 		}
