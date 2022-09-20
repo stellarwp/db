@@ -2,42 +2,68 @@
 
 namespace StellarWP\DB;
 
-/**
- * @method static string getDatabaseQueryException()
- * @method static string getHookPrefix()
- * @method static void setDatabaseQueryException(string $class)
- * @method static void setHookPrefix(string $prefix)
- */
+use StellarWP\DB\Database\Exceptions\DatabaseQueryException;
+
 class Config {
 	/**
-	 * @var Contracts\ConfigComponents
+	 * @var string
 	 */
-	protected static $configComponents;
+	protected static $databaseQueryException = DatabaseQueryException::class;
 
 	/**
-	 * Sets the ConfigComponents for this class.
-	 *
-	 * @param Contracts\ConfigComponents|null $configComponents Config components.
+	 * @var string
 	 */
-	public static function setConfigComponents( ?Contracts\ConfigComponents $configComponents = null ) {
-		static::$configComponents = $configComponents;
+	protected static $hookPrefix = '';
+
+	/**
+	 * Gets the DatabaseQueryException class.
+	 *
+	 * @return string
+	 */
+	public static function getDatabaseQueryException(): string {
+		return static::$databaseQueryException;
 	}
 
 	/**
-	 * Magic method which calls the methods from an instance.
+	 * Gets the hook prefix.
 	 *
-	 * @since 1.0.1
-	 *
-	 * @param string $name Name of method being called statically.
-	 * @param array $arguments Arguments passed to the method.
-	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public static function __callStatic( string $name, array $arguments ) {
-		if ( static::$configComponents === null ) {
-			static::$configComponents = new ConfigComponents();
+	public static function getHookPrefix(): string {
+		return static::$hookPrefix;
+	}
+
+	/**
+	 * Resets this class back to the defaults.
+	 */
+	public static function reset() {
+		static::$hookPrefix             = '';
+		static::$databaseQueryException = DatabaseQueryException::class;
+	}
+
+	/**
+	 * Sets the DatabaseQueryException class.
+	 *
+	 * @param string $class Class name of the DatabaseQueryException to use.
+	 *
+	 * @return void
+	 */
+	public static function setDatabaseQueryException( string $class ) {
+		if ( ! is_a( $class, DatabaseQueryException::class, true ) ) {
+			throw new \InvalidArgumentException( 'The provided DatabaseQueryException class must be or must extend ' . DatabaseQueryException::class . '.' );
 		}
 
-		return static::$configComponents->$name( ...$arguments );
+		static::$databaseQueryException = $class;
+	}
+
+	/**
+	 * Sets the hook prefix.
+	 *
+	 * @param string $prefix The prefix to add to hooks.
+	 *
+	 * @return void
+	 */
+	public static function setHookPrefix( string $prefix ) {
+		static::$hookPrefix = $prefix;
 	}
 }

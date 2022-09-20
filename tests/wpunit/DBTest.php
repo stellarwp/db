@@ -6,20 +6,18 @@ use StellarWP\DB\Tests\DBTestCase;
 use StellarWP\DB\Tests\InvalidDatabaseQueryException;
 use StellarWP\DB\Tests\ValidDatabaseQueryException;
 
+/**
+ * @backupStaticAttributes
+ */
 class DBTest extends DBTestCase {
 	public function setUp() {
 		// before
 		parent::setUp();
-
-		// Ensure config is nice and fresh each test.
-		Config::setConfigComponents( null );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
-
-		// Ensure config is nice and fresh after each test.
-		Config::setConfigComponents( null );
+		Config::reset();
 	}
 
 	public function callWithPrefix() {
