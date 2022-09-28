@@ -20,9 +20,7 @@
     }
   ],
   "minimum-stability": "stable",
-  "require": {
-    "lucatume/di52": "^3.0"
-  },
+  "require": {},
   "require-dev": {
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",

@@ -18,6 +18,10 @@ composer require stellarwp/db
 
 ## Table of contents
 
+- [Quick start](#quick-start)
+
+- [Configuration](#configuration)
+
 - [DB](#db)
 
 - [Select statements](#select-statements)
@@ -64,6 +68,50 @@ composer require stellarwp/db
     - [Avg](#avg)
     - [Min](#min)
     - [Max](#max)
+
+## Quick start
+
+Getting up and running with this library is easy. You'll want to initialize the `DB` class. Doing so during the `plugins_loaded` action is a reasonable location, though you can do it anywhere that feels appropriate.
+
+_For this example and all future ones, let's assume you have [included this library with Strauss](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md) and your project's namespace is `Boom\Shakalaka`._
+
+```php
+use Boom\Shakalaka\StellarWP\DB\DB;
+
+add_action( 'plugins_loaded', function() {
+	DB::init();
+}, 0 );
+```
+
+The two main classes that make up the core of this library are the `DB` class and the `QueryBuilder` class. Here are their namespaces:
+
+```php
+# For DB, it is "StellarWP\DB\DB", but with your namespace prefix it'll be:
+use Boom\Shakalaka\StellarWP\DB\DB;
+
+# For QueryBuilder, it is "StellarWP\DB\QueryBuilder\QueryBuilder", but with your namespace prefix it'll be:
+use Boom\Shakalaka\StellarWP\DB\QueryBuilder\QueryBuilder;
+```
+
+## Configuration
+
+This library provides default hooks and exceptions, however, if you have additional needs for your own application, you can override one or both via the `StellarWP\DB\Config` class:
+
+```php
+use Boom\Shakalaka\StellarWP\DB\Config;
+
+// Ensure hooks are prefixed with your project's prefix.
+Config::setHookPrefix( 'boom_shakalaka' );
+
+// Use your own exception class rather than the default Database\Exceptions\DatabaseQueryException class.
+Config::setDatabaseQueryException( 'MyCustomException' );
+
+// Fetch the hook prefix.
+$prefix = Config::getHookPrefix();
+
+// Fetch the database query exception class.
+$class = Config::getDatabaseQueryException();
+```
 
 ## DB
 
