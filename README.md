@@ -1,8 +1,8 @@
-# DB
+# StellarWPDB
 
 [![Tests](https://github.com/stellarwp/db/workflows/Tests/badge.svg)](https://github.com/stellarwp/db/actions?query=branch%3Amain) [![Static Analysis](https://github.com/stellarwp/db/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/stellarwp/db/actions/workflows/static-analysis.yml)
 
-A WPDB wrapper and query builder library.
+A WPDB wrapper and query builder library. Authored by the development team at StellarWP and provided free for the WordPress communinity. Inspired and largely forked from the work in GiveWP. 
 
 ## Installation
 
