@@ -15,10 +15,10 @@ use WP_Error;
  * If a SQL error occurs a DatabaseQueryException is thrown.
  *
  * @method static int|bool query(string $query)
- * @method static int|false insert(string $table, array $data, array|string $format)
+ * @method static int|false insert(string $table, array $data, array|string|null $format)
  * @method static int|false delete(string $table, array $where, array|string|null $where_format)
  * @method static int|false update(string $table, array $data, array $where, array|string $format, array|string|null $where_format)
- * @method static int|false replace(string $table, array $data, array|string $format)
+ * @method static int|false replace(string $table, array $data, array|string|null $format)
  * @method static null|string get_var(string $query = null, int $x = 0, int $y = 0)
  * @method static array|object|null|void get_row(string $query = null, string $output = OBJECT, int $y = 0)
  * @method static array get_col(string $query = null, int $x = 0)
