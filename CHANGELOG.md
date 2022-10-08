@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file. This projec
 
 ## [1.0.2] Unreleased
 
-- Fix - Adjust `DB::insert()` and `DB::replace()` signature to match `wpdb`'s supported method signatures.
+- Fix - Adjust `DB::insert()`, `DB::delete()`, `DB::update()`, and `DB::replace()` signature to match `wpdb`'s supported method signatures.
+- Fix - Adjust `DB::get_var()`, `DB::get_col()`, and `DB::get_results()` signature of first arg to match `wpdb`'s signature.
 
 ## [1.0.1] 2022-09-29
 
