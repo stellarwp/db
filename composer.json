@@ -17,6 +17,10 @@
     {
       "name": "StellarWP",
       "email": "dev@stellarwp.com"
+    },
+    {
+      "name": "Matthew Batchelder",
+      "email": "matt.batchelder@stellarwp.com"
     }
   ],
   "minimum-stability": "stable",
