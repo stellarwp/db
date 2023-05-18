@@ -909,7 +909,7 @@ $meta_values = DB::get_col(
 
 ### `esc_like()`
 
-Escapes a string with a percent sign in it so it can be safely used with (Where LIKE)[#where-like-clauses] without the percent sign being interpreted as a wildcard character.
+Escapes a string with a percent sign in it so it can be safely used with [Where LIKE](#where-like-clauses) without the percent sign being interpreted as a wildcard character.
 
 ```php
 $escaped_string = DB::esc_like( 'This string has a % in it that is not a wildcard character' );
