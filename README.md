@@ -64,6 +64,12 @@ composer require stellarwp/db
   - [Delete](#delete)
   - [Get](#get)
 
+- [Inherited from `$wpdb`](#inherited-from-wpdb)
+  - [`get_var()`](#get_var)
+  - [`get_col()`](#get_col)
+  - [`esc_like()`](#esc_like)
+  - [`remove_placeholder_escape()`](#remove_placeholder_escape)
+
 - [Aggregate Functions](#aggregate-functions)
     - [Count](#count)
     - [Sum](#sum)
@@ -868,8 +874,66 @@ Get all rows
 $posts = DB::table('posts')->where('post_status', 'published')->getAll();
 ```
 
+## Inherited from `$wpdb`
 
+As this is a wrapper for `$wpdb`, you are able to call all of the methods that `$wpdb` exposes as well. You simply will need to match the signature of the `$wpdb` methods when doing so.
 
+While all methods are supported, `get_var()`, `get_col()`, `esc_like()`, and `remove_placeholder_escape()` are likely of the most interest as there are not equilavents within the library itself.
+
+### `get_var()`
+
+Gets the single `meta_value` column for the given query.
+
+```php
+$meta_value = DB::get_var(
+	DB::table( 'postmeta' )
+		->select( 'meta_value' )
+		->where( 'post_id', 123 )
+		->where( 'meta_key', 'some_key' )
+		->getSQL()
+);
+```
+
+### `get_col()`
+
+Returns an array of values for the column for the given query.
+
+```php
+$meta_values = DB::get_col(
+	DB::table( 'postmeta' )
+		->select( 'meta_value' )
+		->where( 'meta_key', 'some_key' )
+		->getSQL()
+);
+```
+
+### `esc_like()`
+
+Escapes a string with a percent sign in it so it can be safely used with (Where LIKE)[#where-like-clauses] without the percent sign being interpreted as a wildcard character.
+
+```php
+$escaped_string = DB::esc_like( 'This string has a % in it that is not a wildcard character' );
+
+$results = DB::table( 'posts' )
+    ->whereLike( 'post_content', "%{$escaped_string}%" )
+    ->getAll();
+```
+
+### `remove_placeholder_escape()`
+
+Removes the placeholder escape strings from a SQL query.
+
+`$wpdb` generates placeholders such as `{abb19424319f69be9475708db0d2cbb780cb2dc2375bcb2657c701709ff71a9f}` that it escapes `%` with when generating a SQL query. This library, as a `$wpdb` wrapper, does that as well.
+
+Using `DB::remove_placeholder_escape()` will swap those back out for `%`, which can be useful if you ever need to display the query in a more human-friendly format.
+
+```php
+$escaped_sql = DB::table( 'postmeta' )
+	->whereLike( 'meta_key', '%search string%' )
+	->getSql();
+
+$sql = DB::remove_placeholder_escape( $escaped_sql );
+```
 
 ## Aggregate Functions
 
