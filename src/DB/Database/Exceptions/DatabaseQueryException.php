@@ -14,7 +14,7 @@ use Throwable;
  */
 class DatabaseQueryException extends \Exception {
 	/**
-	 * @var string[]
+	 * @var array<string, string[]>
 	 */
 	private $queryErrors;
 
@@ -25,6 +25,8 @@ class DatabaseQueryException extends \Exception {
 
 	/**
 	 * @since 1.0.0
+	 *
+	 * @param array<string, string[]> $queryErrors
 	 */
 	public function __construct(
 		string $query,
@@ -44,7 +46,7 @@ class DatabaseQueryException extends \Exception {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string[]
+	 * @return array<string, string[]>
 	 */
 	public function getQueryErrors(): array {
 		return $this->queryErrors;
