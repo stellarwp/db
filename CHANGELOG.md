@@ -2,11 +2,23 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
-## [1.0.4] 2023-10-23
+## [1.0.7] 2023-10-23
 
 * Tweak - Updates around `trim()` for php 8.1 compatibility.
-* Tweak - Force From() and Select() to convert passed non-strings to an empty string.
-* Tweak - Convert all function signatures that take `$alias` as a param to use only `string` instead of `string|null`.
+* Tweak - Force `From()` and `Select()` to convert passed non-strings to an empty string.
+
+## [1.0.6] 2023-09-05
+
+* Tweak - Fix array shape for errors in `DatabaseQueryException`
+
+## [1.0.5] 2023-09-05
+
+* Tweak - Updating docblock for `whereExists()` and `whereNotExists()` in response to a PHPStan flag.
+
+## [1.0.4] 2023-06-06
+
+* Tweak - Added more documentation for methods provided by DB.
+* Tweak - Adjusted docblocks to better declare types.
 
 ## [1.0.3] 2022-11-22
 
