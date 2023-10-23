@@ -24,6 +24,6 @@ class From {
 	 */
 	public function __construct( $table, $alias = null ) {
 		$this->table = QueryBuilder::prefixTable( $table );
-		$this->alias = trim( $alias );
+		$this->alias = is_null( $alias ) ? null : trim( $alias );
 	}
 }
