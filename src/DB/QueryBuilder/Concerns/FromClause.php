@@ -17,7 +17,7 @@ trait FromClause {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  string  $alias
+	 * @param  null|string  $alias
 	 *
 	 * @return $this
 	 */

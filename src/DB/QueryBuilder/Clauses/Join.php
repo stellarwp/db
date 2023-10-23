@@ -28,7 +28,7 @@ class Join {
 	/**
 	 * @param  string  $table
 	 * @param  string  $joinType  \StellarWP\DB\QueryBuilder\Types\JoinType
-	 * @param  string  $alias
+	 * @param  null|string  $alias
 	 */
 	public function __construct( $joinType, $table, $alias = '' ) {
 		$this->table	= QueryBuilder::prefixTable( $table );
