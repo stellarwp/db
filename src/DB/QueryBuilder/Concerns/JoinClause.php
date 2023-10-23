@@ -36,11 +36,11 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 *
 	 * @return static
 	 */
-	public function leftJoin( $table, $column1, $column2, $alias = null ) {
+	public function leftJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder
@@ -56,11 +56,11 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 *
 	 * @return static
 	 */
-	public function innerJoin( $table, $column1, $column2, $alias = null ) {
+	public function innerJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder
@@ -76,11 +76,11 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 *
 	 * @return static
 	 */
-	public function rightJoin( $table, $column1, $column2, $alias = null ) {
+	public function rightJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder

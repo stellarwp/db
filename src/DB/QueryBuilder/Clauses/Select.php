@@ -18,10 +18,10 @@ class Select {
 
 	/**
 	 * @param  string  $column
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 */
-	public function __construct( $column, $alias = null ) {
+	public function __construct( $column, $alias = '' ) {
 		$this->column = trim( $column );
-		$this->alias  = is_null( $alias ) ? null : trim( $alias );
+		$this->alias  = is_scalar( $alias ) ? trim( (string) $alias ) : '';
 	}
 }

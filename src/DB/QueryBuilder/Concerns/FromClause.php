@@ -17,11 +17,11 @@ trait FromClause {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 *
 	 * @return $this
 	 */
-	public function from( $table, $alias = null ) {
+	public function from( $table, $alias = '' ) {
 		$this->froms[] = new From( $table, $alias );
 
 		return $this;

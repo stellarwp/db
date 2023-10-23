@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [1.0.4] 2023-10-23
+
+* Tweak - Updates around `trim()` for php 8.1 compatibility.
+* Tweak - Force From() and Select() to convert passed non-strings to an empty string.
+* Tweak - Convert all function signatures that take `$alias` as a param to use only `string` instead of `string|null`.
+
 ## [1.0.3] 2022-11-22
 
 * Tweak - Set composer.json `config.platform.php` to `7.0`.

@@ -28,12 +28,12 @@ class Join {
 	/**
 	 * @param  string  $table
 	 * @param  string  $joinType  \StellarWP\DB\QueryBuilder\Types\JoinType
-	 * @param  string|null  $alias
+	 * @param  string  $alias
 	 */
-	public function __construct( $joinType, $table, $alias = null ) {
+	public function __construct( $joinType, $table, $alias = '' ) {
 		$this->table	= QueryBuilder::prefixTable( $table );
 		$this->joinType = $this->getJoinType( $joinType );
-		$this->alias	= is_null( $alias ) ? null : trim( $alias );
+		$this->alias	= is_scalar( $alias ) ? trim( (string) $alias ) : '';
 	}
 
 	/**
