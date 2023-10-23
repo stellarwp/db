@@ -33,7 +33,7 @@ class Join {
 	public function __construct( $joinType, $table, $alias = null ) {
 		$this->table	= QueryBuilder::prefixTable( $table );
 		$this->joinType = $this->getJoinType( $joinType );
-		$this->alias	= trim( $alias );
+		$this->alias	= is_null( $alias ) ? null : trim( $alias );
 	}
 
 	/**
