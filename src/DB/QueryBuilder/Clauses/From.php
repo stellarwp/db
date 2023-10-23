@@ -22,8 +22,8 @@ class From {
 	 * @param  string|RawSQL  $table
 	 * @param  string|null  $alias
 	 */
-	public function __construct( $table, $alias = null ) {
+	public function __construct( $table, $alias = '' ) {
 		$this->table = QueryBuilder::prefixTable( $table );
-		$this->alias = trim( $alias );
+		$this->alias = is_scalar( $alias ) ? trim( (string) $alias ) : '';
 	}
 }
