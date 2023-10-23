@@ -20,7 +20,7 @@ class From {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 */
 	public function __construct( $table, $alias = '' ) {
 		$this->table = QueryBuilder::prefixTable( $table );

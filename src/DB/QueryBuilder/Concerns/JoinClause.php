@@ -36,7 +36,7 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return static
 	 */
@@ -56,7 +56,7 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return static
 	 */
@@ -76,7 +76,7 @@ trait JoinClause {
 	 * @param  string|RawSQL  $table
 	 * @param  string  $column1
 	 * @param  string  $column2
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return static
 	 */

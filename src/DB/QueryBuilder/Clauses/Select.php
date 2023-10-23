@@ -18,7 +18,7 @@ class Select {
 
 	/**
 	 * @param  string  $column
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 */
 	public function __construct( $column, $alias = '' ) {
 		$this->column = trim( $column );

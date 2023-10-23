@@ -173,7 +173,7 @@ class DB {
 	 * Create QueryBuilder instance
 	 *
 	 * @param string|RawSQL $table
-	 * @param null|string  $alias
+	 * @param string|null  $alias
 	 *
 	 * @return QueryBuilder
 	 */

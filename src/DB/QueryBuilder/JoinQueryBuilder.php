@@ -19,7 +19,7 @@ class JoinQueryBuilder {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return $this
 	 */
@@ -33,7 +33,7 @@ class JoinQueryBuilder {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return $this
 	 */
@@ -47,7 +47,7 @@ class JoinQueryBuilder {
 
 	/**
 	 * @param  string|RawSQL  $table
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return $this
 	 */
@@ -122,7 +122,7 @@ class JoinQueryBuilder {
 	 *
 	 * @param  string  $joinType
 	 * @param  string|RawSQL  $table
-	 * @param  null|string  $alias
+	 * @param  string|null  $alias
 	 *
 	 * @return $this
 	 */
