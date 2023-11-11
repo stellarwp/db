@@ -180,7 +180,7 @@ final class CRUDTest extends DBTestCase
 		];
 
 		$match = [
-			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_title',
 		];
 
 		DB::table('posts')->upsert( $updated_data, $match );
