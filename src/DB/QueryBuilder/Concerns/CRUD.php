@@ -48,6 +48,10 @@ trait CRUD {
 		);
 	}
 
+	public function upsert( $data, $match = null, $format = null ) {
+		return $this->insert( $data, $format );
+	}
+
 	/**
 	 * @since 1.0.0
 	 *
