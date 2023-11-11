@@ -156,4 +156,39 @@ final class CRUDTest extends DBTestCase
 		$this->assertEquals($data['post_content'], $post->post_content);
 	}
 
+	/**
+	 * Tests if upsert() updates a row in the database.
+	 *
+	 * @return void
+	 */
+	public function testUpsertShouldUpdateRowInDatabase()
+	{
+		$data = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World from upsert!',
+		];
+
+		DB::table('posts')->insert($data);
+
+		$original_id = DB::last_insert_id();
+
+		$updated_data = [
+			'post_content' => 'Hello World from upsert! - updated',
+		];
+
+		$match = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+		];
+
+		DB::table('posts')->upsert($updated_data, $match);
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $original_id)
+			->get();
+
+		$this->assertEquals($updated_data['post_content'], $post->post_content);
+	}
+
 }
