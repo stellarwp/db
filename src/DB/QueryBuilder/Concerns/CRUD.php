@@ -48,7 +48,22 @@ trait CRUD {
 		);
 	}
 
-	public function upsert( $data, $match = null, $format = null ) {
+	/**
+	 * @param $data
+	 * @param $match
+	 * @param $format
+	 *
+	 * @return false|int
+	 */
+	public function upsert( $data, $match = [], $format = null ) {
+		foreach( $match as $column => $value ) {
+			$this->where( $column, $value );
+		}
+		$exists = $this->get();
+
+		if ( $exists ) {
+			return $this->update( $data, $format );
+		}
 		return $this->insert( $data, $format );
 	}
 
