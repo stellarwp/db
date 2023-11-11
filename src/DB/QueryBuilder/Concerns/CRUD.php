@@ -56,14 +56,17 @@ trait CRUD {
 	 * @return false|int
 	 */
 	public function upsert( $data, $match = [], $format = null ) {
-		foreach( $match as $column => $value ) {
-			$this->where( $column, $value );
+		// Build the where clause(s).
+		foreach( $match as $column ) {
+			$this->where( $column, $data[$column] );
 		}
 
+		// If the row exists, update it.
 		if ( $this->get() ) {
 			return $this->update( $data, $format );
 		}
 
+		// Otherwise, insert it.
 		return $this->insert( $data, $format );
 	}
 
