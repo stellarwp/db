@@ -191,6 +191,27 @@ final class CRUDTest extends DBTestCase
 			->get();
 
 		$this->assertEquals($updated_data['post_content'], $post->post_content);
+
+		// Test multiple match columns
+		$further_updated_data = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World from upsert! - updated even more!',
+		];
+
+		$match = [
+			'post_title',
+			'post_type',
+		];
+
+		DB::table('posts')->upsert( $further_updated_data, $match );
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $original_id)
+			->get();
+
+		$this->assertEquals($further_updated_data['post_content'], $post->post_content);
 	}
 
 }
