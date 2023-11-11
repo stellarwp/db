@@ -129,4 +129,31 @@ final class CRUDTest extends DBTestCase
         $this->assertNull($post);
     }
 
+	/**
+	 * Tests if upsert() adds a row to the database.
+	 *
+	 * @return void
+	 */
+	public function testUpsertShouldAddRowToDatabase()
+	{
+		$data = [
+			'post_title' => 'Query Builder CRUD test',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World!',
+		];
+
+		DB::table('posts')->upsert($data);
+
+		$id = DB::last_insert_id();
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $id)
+			->get();
+
+		$this->assertEquals($data['post_title'], $post->post_title);
+		$this->assertEquals($data['post_type'], $post->post_type);
+		$this->assertEquals($data['post_content'], $post->post_content);
+	}
+
 }
