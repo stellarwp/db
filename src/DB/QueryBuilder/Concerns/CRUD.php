@@ -59,11 +59,11 @@ trait CRUD {
 		foreach( $match as $column => $value ) {
 			$this->where( $column, $value );
 		}
-		$exists = $this->get();
 
-		if ( $exists ) {
+		if ( $this->get() ) {
 			return $this->update( $data, $format );
 		}
+
 		return $this->insert( $data, $format );
 	}
 
