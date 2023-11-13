@@ -49,15 +49,19 @@ trait CRUD {
 	}
 
 	/**
-	 * @param $data
-	 * @param $match
-	 * @param $format
+	 * Upsert allows for inserting or updating a row depending on whether it already exists.
+	 *
+	 * @since 1.0.8
+	 *
+	 * @param array $data The data to insert or update.
+	 * @param array $match The columns to match on.
+	 * @param string|null $format
 	 *
 	 * @return false|int
 	 */
 	public function upsert( $data, $match = [], $format = null ) {
 		// Build the where clause(s).
-		foreach( $match as $column ) {
+		foreach ( $match as $column ) {
 			$this->where( $column, $data[$column] );
 		}
 
