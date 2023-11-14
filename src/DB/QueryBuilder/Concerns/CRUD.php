@@ -62,7 +62,7 @@ trait CRUD {
 	public function upsert( $data, $match = [], $format = null ) {
 		// Build the where clause(s).
 		foreach ( $match as $column ) {
-			$this->where( $column, $data[$column] );
+			$this->where( $column, $data[ $column ] );
 		}
 
 		// If the row exists, update it.
