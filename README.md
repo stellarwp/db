@@ -61,6 +61,7 @@ composer require stellarwp/db
 - [CRUD](#crud)
   - [Insert](#insert)
   - [Update](#update)
+  - [Upsert](#upsert)
   - [Delete](#delete)
   - [Get](#get)
 
@@ -845,6 +846,28 @@ DB::table('posts')
         'post_title'   => 'Post Title 2',
         'post_content' => 'Post Content 2'
     ]);
+```
+
+### Upsert
+
+The `QueryBuilder::upsert` method may be used to update an existing record or create a new record if it doesn't exist.
+
+```php
+// Would result in a new row - Oakland to San Diego for 100.
+DB::table('table_name')
+    ->upsert(
+        ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => '100'] ,
+        ['departure','destination']
+    );
+
+
+// Would update the row that was just inserted - Oakland to San Diego for 99.
+DB::table('table_name')
+    ->upsert(
+        ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => '99'] ,
+        ['departure','destination']
+    );
+
 ```
 
 ### Delete

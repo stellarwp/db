@@ -129,4 +129,89 @@ final class CRUDTest extends DBTestCase
         $this->assertNull($post);
     }
 
+	/**
+	 * Tests if upsert() adds a row to the database.
+	 *
+	 * @return void
+	 */
+	public function testUpsertShouldAddRowToDatabase()
+	{
+		$data = [
+			'post_title' => 'Query Builder CRUD test',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World!',
+		];
+
+		DB::table('posts')->upsert($data);
+
+		$id = DB::last_insert_id();
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $id)
+			->get();
+
+		$this->assertEquals($data['post_title'], $post->post_title);
+		$this->assertEquals($data['post_type'], $post->post_type);
+		$this->assertEquals($data['post_content'], $post->post_content);
+	}
+
+	/**
+	 * Tests if upsert() updates a row in the database.
+	 *
+	 * @return void
+	 */
+	public function testUpsertShouldUpdateRowInDatabase()
+	{
+		$data = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World from upsert!',
+		];
+
+		DB::table('posts')->insert($data);
+
+		$original_id = DB::last_insert_id();
+
+		$updated_data = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World from upsert! - updated',
+		];
+
+		$match = [
+			'post_title',
+		];
+
+		DB::table('posts')->upsert( $updated_data, $match );
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $original_id)
+			->get();
+
+		$this->assertEquals($updated_data['post_content'], $post->post_content);
+
+		// Test multiple match columns
+		$further_updated_data = [
+			'post_title' => 'Query Builder CRUD test - upsert update',
+			'post_type' => 'crud_test',
+			'post_content' => 'Hello World from upsert! - updated even more!',
+		];
+
+		$match = [
+			'post_title',
+			'post_type',
+		];
+
+		DB::table('posts')->upsert( $further_updated_data, $match );
+
+		$post = DB::table('posts')
+			->select('post_title', 'post_type', 'post_content')
+			->where('ID', $original_id)
+			->get();
+
+		$this->assertEquals($further_updated_data['post_content'], $post->post_content);
+	}
+
 }
