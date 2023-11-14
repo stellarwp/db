@@ -53,11 +53,11 @@ trait CRUD {
 	 *
 	 * @since 1.0.8
 	 *
-	 * @param array $data The data to insert or update.
+	 * @param array<string, string|int|float|bool|null> $data The data to insert or update.
 	 * @param array $match The columns to match on.
-	 * @param string|null $format
+	 * @param string|array|null $format Array of formats to be mapped to each value in $data. If string, the format will be used for all values in $data.
 	 *
-	 * @return false|int
+	 * @return false|int Number of rows updated/inserted, false on error.
 	 */
 	public function upsert( $data, $match = [], $format = null ) {
 		// Build the where clause(s).
