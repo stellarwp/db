@@ -2,9 +2,10 @@
 
 namespace StellarWP\DB\Tests;
 
+use Codeception\TestCase\WPTestCase;
 use StellarWP\DB\DB;
 
-class DBTestCase extends \Codeception\Test\Unit {
+class DBTestCase extends WPTestCase {
 	protected $backupGlobals = false;
 
 	public function setUp() {

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [1.0.8] TBD
+
+* Feat - Add the `DB::generate_results` and `DB::generate_col` methods to the `DB` class to fetch all results matching an unbounded query with a set of bounded queries.
+
 ## [1.0.7] 2023-10-23
 
 * Tweak - Updates around `trim()` for php 8.1 compatibility.
