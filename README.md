@@ -20,63 +20,74 @@ composer require stellarwp/db
 
 ## Table of contents
 
-- [Quick start](#quick-start)
-
-- [Configuration](#configuration)
-
-- [DB](#db)
-
-- [Select statements](#select-statements)
-
-- [From Clause](#from-clause)
-
-- [Joins](#joins)
+- [StellarWP DB](#stellarwp-db)
+  - [Installation](#installation)
+  - [Table of contents](#table-of-contents)
+  - [Quick start](#quick-start)
+  - [Configuration](#configuration)
+  - [DB](#db)
+    - [Important](#important)
+  - [Select statements](#select-statements)
+      - [Available methods - select / selectRaw / distinct](#available-methods---select--selectraw--distinct)
+  - [From clause](#from-clause)
+    - [Important](#important-1)
+  - [Joins](#joins)
+      - [Available methods - leftJoin / rightJoin / innerJoin / joinRaw / join](#available-methods---leftjoin--rightjoin--innerjoin--joinraw--join)
     - [LEFT Join](#left-join)
     - [RIGHT Join](#right-join)
     - [INNER Join](#inner-join)
     - [Join Raw](#join-raw)
     - [Advanced Join Clauses](#advanced-join-clauses)
-
-- [Unions](#unions)
-
-- [Where Clauses](#where-clauses)
-    - [Where](#where-clauses)
-    - [Where IN](#where-in-clauses)
-    - [Where BETWEEN](#where-between-clauses)
-    - [Where LIKE](#where-like-clauses)
-    - [Where IS NULL](#where-is-null-clauses)
-    - [Where EXISTS](#where-exists-clauses)
+  - [Unions](#unions)
+      - [Available methods - union / unionAll](#available-methods---union--unionall)
+    - [Union](#union)
+  - [Where Clauses](#where-clauses)
+    - [Where](#where)
+      - [Available methods - where / orWhere](#available-methods---where--orwhere)
+    - [Where IN Clauses](#where-in-clauses)
+      - [Available methods - whereIn / orWhereIn / whereNotIn / orWhereNotIn](#available-methods---wherein--orwherein--wherenotin--orwherenotin)
+    - [Where BETWEEN Clauses](#where-between-clauses)
+      - [Available methods - whereBetween / orWhereBetween / whereNotBetween / orWhereNotBetween](#available-methods---wherebetween--orwherebetween--wherenotbetween--orwherenotbetween)
+    - [Where LIKE Clauses](#where-like-clauses)
+      - [Available methods - whereLike / orWhereLike / whereNotLike / orWhereNotLike](#available-methods---wherelike--orwherelike--wherenotlike--orwherenotlike)
+    - [Where IS NULL Clauses](#where-is-null-clauses)
+      - [Available methods - whereIsNull / orWhereIsNull / whereIsNotNull / orWhereIsNotNull](#available-methods---whereisnull--orwhereisnull--whereisnotnull--orwhereisnotnull)
+    - [Where EXISTS Clauses](#where-exists-clauses)
+      - [Available methods - whereExists / whereNotExists](#available-methods---whereexists--wherenotexists)
     - [Subquery Where Clauses](#subquery-where-clauses)
     - [Nested Where Clauses](#nested-where-clauses)
-
-- [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit--offset)
+  - [Ordering, Grouping, Limit \& Offset](#ordering-grouping-limit--offset)
     - [Ordering](#ordering)
     - [Grouping](#grouping)
-    - [Limit & Offset](#limit--offset)
-
-- [Special methods for working with meta tables](#special-methods-for-working-with-meta-tables)
-  - [attachMeta](#attachmeta)
-  - [configureMetaTable](#configuremetatable)
-
-- [CRUD](#crud)
-  - [Insert](#insert)
-  - [Update](#update)
-  - [Upsert](#upsert)
-  - [Delete](#delete)
-  - [Get](#get)
-
-- [Inherited from `$wpdb`](#inherited-from-wpdb)
-  - [`get_var()`](#get_var)
-  - [`get_col()`](#get_col)
-  - [`esc_like()`](#esc_like)
-  - [`remove_placeholder_escape()`](#remove_placeholder_escape)
-
-- [Aggregate Functions](#aggregate-functions)
+      - [Available methods - groupBy / having / orHaving / havingCount / orHavingCount / havingMin / orHavingMin / havingMax / orHavingMax / havingAvg / orHavingAvg / havingSum / orHavingSum / havingRaw](#available-methods---groupby--having--orhaving--havingcount--orhavingcount--havingmin--orhavingmin--havingmax--orhavingmax--havingavg--orhavingavg--havingsum--orhavingsum--havingraw)
+    - [Limit \& Offset](#limit--offset)
+      - [Available methods - limit / offset](#available-methods---limit--offset)
+  - [Special methods for working with meta tables](#special-methods-for-working-with-meta-tables)
+    - [attachMeta](#attachmeta)
+      - [Fetch multiple instances of the same meta key](#fetch-multiple-instances-of-the-same-meta-key)
+    - [configureMetaTable](#configuremetatable)
+  - [CRUD](#crud)
+    - [Insert](#insert)
+    - [Update](#update)
+    - [Upsert](#upsert)
+    - [Delete](#delete)
+    - [Get](#get)
+      - [Available methods - get / getAll](#available-methods---get--getall)
+  - [Inherited from `$wpdb`](#inherited-from-wpdb)
+    - [`get_var()`](#get_var)
+    - [`get_col()`](#get_col)
+    - [`generate_col()`](#generate_col)
+    - [`get_results()`](#get_results)
+    - [`generate_results()`](#generate_results)
+    - [`esc_like()`](#esc_like)
+    - [`remove_placeholder_escape()`](#remove_placeholder_escape)
+  - [Aggregate Functions](#aggregate-functions)
     - [Count](#count)
     - [Sum](#sum)
     - [Avg](#avg)
     - [Min](#min)
     - [Max](#max)
+  - [Acknowledgements](#acknowledgements)
 
 ## Quick start
 
@@ -928,6 +939,57 @@ $meta_values = DB::get_col(
 		->where( 'meta_key', 'some_key' )
 		->getSQL()
 );
+```
+
+### `generate_col()`
+
+Returns an array of values for the column for the given query in batches.  
+Differently from the `get_col()` method, this method will return a generator that can be iterated over to get all the results.
+Furthermore, the method will take care of running unbounded queries in batches.
+
+```php
+$meta_values = DB::generate_col(
+	DB::table( 'postmeta' )
+		->select( 'meta_value' )
+		->where( 'meta_key', 'some_key' )
+		->getSQL()
+);
+
+foreach ($meta_values as $meta_value) {
+    // Do something with the meta value
+}
+```
+
+### `get_results()`
+
+Returns an array of rows for the given query.
+
+```php
+$posts = DB::get_results(
+	DB::table( 'posts' )
+		->select( '*' )
+		->where( 'post_status', 'published' )
+		->getSQL()
+);
+```
+
+### `generate_results()`
+
+Returns an array of rows for the given query in batches.  
+Differently from the `get_results()` method, this method will return a generator that can be iterated over to get all the results.
+Furthermore, the method will take care of running unbounded queries in batches.
+
+```php
+$posts = DB::generate_results(
+	DB::table( 'posts' )
+		->select( '*' )
+		->where( 'post_status', 'published' )
+		->getSQL()
+);
+
+foreach ($posts as $post) {
+    // Do something with the post
+}
 ```
 
 ### `esc_like()`
