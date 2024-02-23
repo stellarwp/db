@@ -2,7 +2,9 @@
 
 namespace StellarWP\DB;
 
+use Closure;
 use Exception;
+use Generator;
 use StellarWP\DB\Database\Exceptions\DatabaseQueryException;
 use StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 use StellarWP\DB\QueryBuilder\QueryBuilder;
@@ -14,18 +16,18 @@ use WP_Error;
  * A static decorator for the $wpdb class and decorator function which does SQL error checking when performing queries.
  * If a SQL error occurs a DatabaseQueryException is thrown.
  *
- * @method static int|bool query(string $query)
- * @method static int|false insert(string $table, array $data, array|string|null $format = null)
- * @method static int|false delete(string $table, array $where, array|string|null $where_format = null)
- * @method static int|false update(string $table, array $data, array $where, array|string|null $format = null, array|string|null $where_format = null)
- * @method static int|false replace(string $table, array $data, array|string|null $format = null)
- * @method static null|string get_var(string|null $query = null, int $x = 0, int $y = 0)
- * @method static array|object|null|void get_row(string|null $query = null, string $output = OBJECT, int $y = 0)
- * @method static array get_col(string|null $query = null, int $x = 0)
- * @method static array|object|null get_results(string|null $query = null, string $output = OBJECT)
+ * @method static int|bool query( string $query )
+ * @method static int|false insert( string $table, array $data, array|string|null $format = null )
+ * @method static int|false delete( string $table, array $where, array|string|null $where_format = null )
+ * @method static int|false update( string $table, array $data, array $where, array|string|null $format = null, array|string|null $where_format = null )
+ * @method static int|false replace( string $table, array $data, array|string|null $format = null )
+ * @method static null|string get_var( string|null $query = null, int $x = 0, int $y = 0 )
+ * @method static array|object|null|void get_row( string|null $query = null, string $output = OBJECT, int $y = 0 )
+ * @method static array get_col( string|null $query = null, int $x = 0 )
+ * @method static array|object|null get_results( string|null $query = null, string $output = OBJECT )
  * @method static string get_charset_collate()
- * @method static string esc_like(string $text)
- * @method static string remove_placeholder_escape(string $text)
+ * @method static string esc_like( string $text )
+ * @method static string remove_placeholder_escape( string $text )
  * @method static Config config()
  */
 class DB {
@@ -61,14 +63,14 @@ class DB {
 	/**
 	 * Runs the dbDelta function and returns a WP_Error with any errors that occurred during the process
 	 *
-	 * @see dbDelta() for parameter and return details
-	 *
 	 * @since 1.0.0
 	 *
 	 * @param $delta
 	 *
 	 * @return array
 	 * @throws DatabaseQueryException
+	 * @see   dbDelta() for parameter and return details
+	 *
 	 */
 	public static function delta( $delta ) {
 		return self::runQueryWithErrorChecking(
@@ -81,14 +83,14 @@ class DB {
 	/**
 	 * A convenience method for the $wpdb->prepare method
 	 *
-	 * @see WPDB::prepare() for usage details
-	 *
 	 * @since 1.0.0
 	 *
 	 * @param string $query
-	 * @param mixed ...$args
+	 * @param mixed  ...$args
 	 *
 	 * @return false|mixed
+	 * @see   WPDB::prepare() for usage details
+	 *
 	 */
 	public static function prepare( $query, ...$args ) {
 		global $wpdb;
@@ -113,7 +115,7 @@ class DB {
 			static function () use ( $name, $arguments ) {
 				global $wpdb;
 
-				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true) ) {
+				if ( in_array( $name, [ 'get_row', 'get_col', 'get_results', 'query' ], true ) ) {
 					$hook_prefix = Config::getHookPrefix();
 
 					/**
@@ -121,7 +123,7 @@ class DB {
 					 *
 					 * @since 1.0.0
 					 *
-					 * @param string $argument First argument passed to the $wpdb method.
+					 * @param string $argument    First argument passed to the $wpdb method.
 					 * @param string $hook_prefix Prefix for the hook.
 					 */
 					do_action( 'stellarwp_db_pre_query', current( $arguments ), $hook_prefix );
@@ -132,7 +134,7 @@ class DB {
 						 *
 						 * @since 1.0.0
 						 *
-						 * @param string $argument First argument passed to the $wpdb method.
+						 * @param string $argument    First argument passed to the $wpdb method.
 						 * @param string $hook_prefix Prefix for the hook.
 						 */
 						do_action( "{$hook_prefix}_stellarwp_db_pre_query", current( $arguments ), $hook_prefix );
@@ -173,7 +175,7 @@ class DB {
 	 * Create QueryBuilder instance
 	 *
 	 * @param string|RawSQL $table
-	 * @param string|null  $alias
+	 * @param string|null   $alias
 	 *
 	 * @return QueryBuilder
 	 */
@@ -249,7 +251,7 @@ class DB {
 	 * If $args are provided, we will assume that dev wants to use DB::prepare method with raw SQL
 	 *
 	 * @param string $sql
-	 * @param array ...$args
+	 * @param array  ...$args
 	 *
 	 * @return RawSQL
 	 */
@@ -271,7 +273,7 @@ class DB {
 		global $wpdb, $EZSQL_ERROR;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$errorCount = is_array( $EZSQL_ERROR ) ? count( $EZSQL_ERROR ) : 0;
+		$errorCount    = is_array( $EZSQL_ERROR ) ? count( $EZSQL_ERROR ) : 0;
 		$hasShowErrors = $wpdb->hide_errors();
 
 		$output = $queryCaller();
@@ -307,7 +309,7 @@ class DB {
 		$wpError = new WP_Error();
 
 		if ( is_array( $EZSQL_ERROR ) ) {
-			for ( $index = $initialCount, $indexMax = count( $EZSQL_ERROR ); $index < $indexMax; $index++ ) {
+			for ( $index = $initialCount, $indexMax = count( $EZSQL_ERROR ); $index < $indexMax; $index ++ ) {
 				$error = $EZSQL_ERROR[ $index ];
 
 				if ( empty( $error['error_str'] ) || empty( $error['query'] ) || 0 === strpos(
@@ -322,5 +324,108 @@ class DB {
 		}
 
 		return $wpError;
+	}
+
+	/**
+	 * Get all the results from a query in batches.
+	 *
+	 * @since TBD
+	 *
+	 * @param string  $query      The SQL query.
+	 * @param int     $batch_size The number of results to return in each batch.
+	 * @param Closure $fetch      The function to fetch the results.
+	 *
+	 * @return Generator<mixed> A generator to get all the results of the query.
+	 */
+	private static function run_batched_query( string $query, int $batch_size, Closure $fetch ): Generator {
+		// Capture the end part of the main query, the one not bound with parentheses.
+		preg_match( '/([^)(]*?)$/', $query, $matches );
+
+		// Does the end part of the query contain a LIMIT? Look for `LIMIT <offset>, <limit>` or `LIMIT <limit>`.
+		$has_limit = (bool) preg_match( '/LIMIT\\s+\\d+\\s*(,\\s*\\d+)*$/i', $matches[1] );
+
+		if ( $has_limit ) {
+			yield from $fetch( $query );
+
+			return;
+		}
+
+		// Add a LIMIT template to the query.
+		$query_template = trim( $query . ' LIMIT %d, %d' );
+
+		$offset     = 0;
+		$found_rows = 0;
+		$fetched    = 0;
+		$key        = 0;
+
+		// Set up the first query, make sure ot include SQL_CALC_FOUND_ROWS.
+		$first_query = self::prepare(
+			$query_template,
+			$offset,
+			$batch_size
+		);
+
+		// Build the first query to include SQL_CALC_FOUND_ROWS if not already present.
+		$first_query = preg_replace( '/^SELECT\\s*(?!SQL_CALC_FOUND_ROWS)/i', 'SELECT SQL_CALC_FOUND_ROWS ', $first_query );
+
+		$run_query = $first_query;
+
+		do {
+			foreach ( $fetch( $run_query ) as $result ) {
+				$fetched ++;
+				yield $key => $result;
+				$key ++;
+			}
+
+			if ( $offset === 0 ) {
+				// First run.
+				$found_rows = (int) self::get_var( 'SELECT FOUND_ROWS()' );
+			}
+
+			$offset += $batch_size;
+
+			// Compile the query for the next run.
+			$run_query = self::prepare(
+				$query_template,
+				$offset,
+				$batch_size
+			);
+		} while ( $fetched < $found_rows );
+	}
+
+	/**
+	 * Get all the results from a query in batches.
+	 *
+	 * This method should be used to run an unbounded query in batches.
+	 *
+	 * @since TBD
+	 *
+	 * @param string|null $query      The SQL query.
+	 * @param string      $output     The required return type. One of OBJECT, ARRAY_A, ARRAY_N.
+	 * @param int         $batch_size The number of results to return in each batch.
+	 *
+	 * @return Generator<array|object|null> A generator to get all the results of the query.
+	 */
+	public static function generate_results( string $query = null, string $output = OBJECT, int $batch_size = 20 ): Generator {
+		yield from self::run_batched_query( $query, $batch_size, static function ( string $run_query ) use ( $output ) {
+			return self::get_results( $run_query, $output );
+		} );
+	}
+
+	/**
+	 * Get all the values in a column from a query in batches.
+	 *
+	 * @since TBD
+	 *
+	 * @param string|null $query      The SQL query.
+	 * @param int         $x          The column number to return.
+	 * @param int         $batch_size The number of results to return in each batch.
+	 *
+	 * @return Generator<mixed> The values of the column.
+	 */
+	public function generate_col( string $query = null, int $x = 0, int $batch_size = 50 ): Generator {
+		yield from self::run_batched_query( $query, $batch_size, static function ( string $run_query ) use ( $x ) {
+			return self::get_col( $run_query, $x );
+		} );
 	}
 }
