@@ -36,7 +36,7 @@ class Where {
 
 	/**
 	 * @param  string  $column
-	 * @param  string  $value
+	 * @param  mixed  $value
 	 * @param  string  $comparisonOperator
 	 * @param  string|null  $logicalOperator
 	 */
