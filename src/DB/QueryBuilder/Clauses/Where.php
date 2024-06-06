@@ -9,6 +9,7 @@ use InvalidArgumentException;
  * @since 1.0.0
  */
 class Where {
+
 	/**
 	 * @var string
 	 */
@@ -28,11 +29,6 @@ class Where {
 	 * @var string
 	 */
 	public $logicalOperator;
-
-	/**
-	 * @var string|null
-	 */
-	public $type;
 
 	/**
 	 * @param  string  $column
