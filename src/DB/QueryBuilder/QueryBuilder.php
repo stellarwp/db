@@ -84,7 +84,7 @@ class QueryBuilder {
 	 *
 	 * @return string SQL query.
 	 */
-	private function buildSQL( $sql ){
+	private function buildSQL( $sql ) {
 		return str_replace(
 			[ '   ', '  ' ],
 			' ',
