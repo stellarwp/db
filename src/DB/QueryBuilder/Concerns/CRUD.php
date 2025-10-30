@@ -79,14 +79,9 @@ trait CRUD {
 	 *
 	 * @return false|int
 	 *
-	 * @see https://developer.wordpress.org/reference/classes/wpdb/delete/
 	 */
 	public function delete() {
-		return DB::delete(
-			$this->getTable(),
-			$this->getWhere(),
-			null
-		);
+		return DB::query( $this->deleteSQL() );
 	}
 
 	/**
