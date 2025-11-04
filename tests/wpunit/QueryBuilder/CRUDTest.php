@@ -229,11 +229,8 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Delete Combined D', 'post_type' => 'delete_combined_test', 'post_content' => 'Content D'],
 		];
 
-		$ids = [];
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-			$ids[] = DB::last_insert_id();
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete the 2 oldest posts (lowest IDs)
 		DB::table('posts')
@@ -242,23 +239,13 @@ final class CRUDTest extends DBTestCase
 			->limit(2)
 			->delete();
 
-		// Verify the first 2 posts were deleted
-		$post1 = DB::table('posts')
-			->where('ID', $ids[0])
-			->get();
-		$post2 = DB::table('posts')
-			->where('ID', $ids[1])
-			->get();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'post_content')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
+		unset($posts[0], $posts[1]);
 
-		$this->assertNull($post1);
-		$this->assertNull($post2);
-
-		// Verify the other 2 posts still exist
-		$count = DB::table('posts')
-			->where('post_type', 'delete_combined_test')
-			->count();
-
-		$this->assertEquals(2, $count);
+		$this->assertEquals(array_values($posts), $foundPosts);
 	}
 
 	/**
@@ -276,30 +263,21 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Delete WhereIn 4', 'post_type' => 'delete_wherein_test', 'post_content' => 'Content 4'],
 		];
 
-		$ids = [];
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-			$ids[] = DB::last_insert_id();
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete posts with specific IDs using whereIn
 		DB::table('posts')
 			->whereIn('ID', [$ids[0], $ids[2]])
 			->delete();
 
-		// Verify specific posts were deleted
-		$post1 = DB::table('posts')->where('ID', $ids[0])->get();
-		$post3 = DB::table('posts')->where('ID', $ids[2])->get();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'post_content')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
+		unset($posts[0], $posts[2]);
 
-		$this->assertNull($post1);
-		$this->assertNull($post3);
-
-		// Verify other posts still exist
-		$post2 = DB::table('posts')->where('ID', $ids[1])->get();
-		$post4 = DB::table('posts')->where('ID', $ids[3])->get();
-
-		$this->assertNotNull($post2);
-		$this->assertNotNull($post4);
+		$this->assertEquals(array_values($posts), $foundPosts);
 	}
 
 	/**
@@ -317,9 +295,8 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Delete Between 4', 'post_type' => 'delete_between_test', 'menu_order' => 40],
 		];
 
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete posts with menu_order between 15 and 35
 		DB::table('posts')
@@ -327,22 +304,13 @@ final class CRUDTest extends DBTestCase
 			->whereBetween('menu_order', 15, 35)
 			->delete();
 
-		// Should have deleted 2 posts (menu_order 20 and 30)
-		$remaining = DB::table('posts')
-			->where('post_type', 'delete_between_test')
-			->count();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'menu_order')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
+		unset($posts[1], $posts[2]);
 
-		$this->assertEquals(2, $remaining);
-
-		// Verify the correct posts remain (menu_order 10 and 40)
-		$posts = DB::table('posts')
-			->select('menu_order')
-			->where('post_type', 'delete_between_test')
-			->orderBy('menu_order', 'ASC')
-			->getAll();
-
-		$this->assertEquals(10, $posts[0]->menu_order);
-		$this->assertEquals(40, $posts[1]->menu_order);
+		$this->assertEquals(array_values($posts), $foundPosts);
 	}
 
 	/**
@@ -360,9 +328,8 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Delete Multi 4', 'post_type' => 'type_b', 'post_status' => 'draft'],
 		];
 
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete only posts with type_a AND status publish
 		DB::table('posts')
@@ -371,19 +338,13 @@ final class CRUDTest extends DBTestCase
 			->where('post_title', 'Delete Multi 1')
 			->delete();
 
-		// Verify only 1 post was deleted
-		$deleted = DB::table('posts')
-			->where('post_title', 'Delete Multi 1')
-			->get();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'post_status')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
+		unset($posts[0]);
 
-		$this->assertNull($deleted);
-
-		// Verify other posts still exist
-		$remaining = DB::table('posts')
-			->whereIn('post_title', ['Delete Multi 2', 'Delete Multi 3', 'Delete Multi 4'])
-			->count();
-
-		$this->assertEquals(3, $remaining);
+		$this->assertEquals(array_values($posts), $foundPosts);
 	}
 
 	/**
@@ -401,9 +362,8 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Service: Widget ABC', 'post_type' => 'delete_like_test', 'post_content' => 'Content 4'],
 		];
 
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete all posts with titles containing "Widget"
 		DB::table('posts')
@@ -411,19 +371,12 @@ final class CRUDTest extends DBTestCase
 			->whereLike('post_title', '%Widget%')
 			->delete();
 
-		// Should have deleted 3 posts (all with "Widget" in title)
-		$remaining = DB::table('posts')
-			->where('post_type', 'delete_like_test')
-			->count();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'post_content')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
 
-		$this->assertEquals(1, $remaining);
-
-		// Verify the correct post remains (Gadget)
-		$post = DB::table('posts')
-			->where('post_type', 'delete_like_test')
-			->get();
-
-		$this->assertStringContainsString('Gadget', $post->post_title);
+		$this->assertEquals([$posts[2]], $foundPosts);
 	}
 
 	/**
@@ -441,9 +394,8 @@ final class CRUDTest extends DBTestCase
 			['post_title' => 'Review: Meeting Notes', 'post_type' => 'delete_prefix_test', 'post_content' => 'Content 4'],
 		];
 
-		foreach ($posts as $post) {
-			DB::table('posts')->insert($post);
-		}
+		$ids = $this->insert_posts($posts);
+		$this->assert_posts_exist($posts, $ids);
 
 		// Delete all posts starting with "Draft:"
 		DB::table('posts')
@@ -451,19 +403,45 @@ final class CRUDTest extends DBTestCase
 			->whereLike('post_title', 'Draft:%')
 			->delete();
 
-		// Should have deleted 2 posts (both starting with "Draft:")
-		$remaining = DB::table('posts')
-			->where('post_type', 'delete_prefix_test')
-			->count();
+		$foundPosts = DB::table('posts')
+		                ->select('post_title', 'post_type', 'post_content')
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
 
-		$this->assertEquals(2, $remaining);
+		$this->assertEquals([$posts[2], $posts[3]], $foundPosts);
+	}
 
-		// Verify no "Draft:" posts remain
-		$draftPosts = DB::table('posts')
-			->where('post_type', 'delete_prefix_test')
-			->whereLike('post_title', 'Draft:%')
-			->count();
+	/**
+	 * Inserts multiple posts into the database and returns their IDs.
+	 *
+	 * @param array $posts An array of associative arrays, where each associative array represents a post to insert.
+	 *
+	 * @return array An array of IDs corresponding to the inserted posts.
+	 */
+	private function insert_posts( array $posts ): array {
+		$ids = [];
+		foreach ($posts as $post) {
+			DB::table('posts')->insert($post);
+			$ids[] = DB::last_insert_id();
+		}
 
-		$this->assertEquals(0, $draftPosts);
+		return $ids;
+	}
+
+	/**
+	 * Asserts that posts with the given IDs exist and match the specified data.
+	 *
+	 * @param array $posts An array of expected post data to validate against the database.
+	 * @param array $ids An array of post IDs to check for existence in the database.
+	 *
+	 * @return void
+	 */
+	private function assert_posts_exist( array $posts, array $ids ) {
+		$foundPosts = DB::table('posts')
+		                ->select(...array_keys($posts[0]))
+		                ->whereIn('ID', $ids)
+		                ->getAll(ARRAY_A);
+
+		$this->assertEquals($posts, $foundPosts);
 	}
 }
