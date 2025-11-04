@@ -437,6 +437,9 @@ final class CRUDTest extends DBTestCase
 	 * @return void
 	 */
 	private function assert_posts_exist( array $posts, array $ids ) {
+		$this->assertNotEmpty($posts);
+		$this->assertNotEmpty($ids);
+
 		$foundPosts = DB::table('posts')
 		                ->select(...array_keys($posts[0]))
 		                ->whereIn('ID', $ids)
