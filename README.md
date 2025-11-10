@@ -874,11 +874,73 @@ DB::table('table_name')
 
 The `QueryBuilder::delete` method may be used to delete records from the table.
 
+Unlike WordPress's `$wpdb->delete()` method, this implementation generates and executes a DELETE SQL statement directly, which allows for advanced features like ORDER BY and LIMIT.
+
+#### Basic delete with WHERE
+
 ```php
 DB::table('posts')
     ->where('post_author', 1)
     ->delete();
 ```
+
+#### Delete with LIMIT
+
+Limit the number of rows to delete:
+
+```php
+// Delete only the first 10 draft posts
+DB::table('posts')
+    ->where('post_status', 'draft')
+    ->limit(10)
+    ->delete();
+```
+
+#### Delete with ORDER BY and LIMIT
+
+Control which rows are deleted when using LIMIT:
+
+```php
+// Delete the 100 oldest posts in trash
+DB::table('posts')
+    ->where('post_status', 'trash')
+    ->orderBy('post_date', 'ASC')
+    ->limit(100)
+    ->delete();
+```
+
+#### Delete with LIKE patterns
+
+Use pattern matching to delete rows:
+
+```php
+// Delete all posts with titles starting with "Draft:"
+DB::table('posts')
+    ->whereLike('post_title', 'Draft:%')
+    ->delete();
+```
+
+#### Delete with complex WHERE conditions
+
+Combine multiple WHERE clauses for precise deletion:
+
+```php
+// Delete auto-draft pages with IDs between 1 and 1000
+DB::table('posts')
+    ->where('post_type', 'page')
+    ->where('post_status', 'auto-draft')
+    ->whereBetween('ID', 1, 1000)
+    ->delete();
+
+// Delete posts using whereIn
+DB::table('posts')
+    ->whereIn('ID', [5, 10, 15, 20])
+    ->delete();
+```
+
+**Important restrictions:**
+- Table aliases in the FROM clause may not be supported on older database versions (MySQL < 8.0.24, MariaDB < 11.6). Avoid using table aliases when calling `delete()`.
+- JOINs are not supported in DELETE statements with this implementation.
 
 
 ### Get
