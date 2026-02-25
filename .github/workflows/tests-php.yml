@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1000
           submodules: recursive
@@ -18,25 +18,13 @@ jobs:
       # Checkout slic
       # ------------------------------------------------------------------------------
       - name: Checkout slic
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           repository: stellarwp/slic
           ref: main
           path: slic
           fetch-depth: 1
-      # ------------------------------------------------------------------------------
-      # Prepare our composer cache directory
-      # ------------------------------------------------------------------------------
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+
       # ------------------------------------------------------------------------------
       # Initialize slic
       # ------------------------------------------------------------------------------
@@ -62,6 +50,7 @@ jobs:
           ${SLIC_BIN} build-subdir off
           ${SLIC_BIN} xdebug off
           ${SLIC_BIN} debug on
+          ${SLIC_BIN} php-version set 7.4 --skip-rebuild
           ${SLIC_BIN} info
           ${SLIC_BIN} config
       - name: Set up StellarWP DB
