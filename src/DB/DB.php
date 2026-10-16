@@ -389,7 +389,7 @@ class DB {
 	/**
 	 * Get all the results from a query in batches.
 	 *
-	 * @since TBD
+	 * @since 1.1.1
 	 *
 	 * @param string  $query      The SQL query.
 	 * @param int     $batch_size The number of results to return in each batch.
@@ -458,7 +458,7 @@ class DB {
 	 *
 	 * This method should be used to run an unbounded query in batches.
 	 *
-	 * @since TBD
+	 * @since 1.1.1
 	 *
 	 * @param string|null $query      The SQL query.
 	 * @param string      $output     The required return type. One of OBJECT, ARRAY_A, ARRAY_N.
@@ -475,7 +475,8 @@ class DB {
 	/**
 	 * Get all the values in a column from a query in batches.
 	 *
-	 * @since TBD
+	 * @since 1.1.1
+	 * @since 1.3.1 Made the method static.
 	 *
 	 * @param string|null $query      The SQL query.
 	 * @param int         $x          The column number to return.
@@ -483,7 +484,7 @@ class DB {
 	 *
 	 * @return Generator<mixed> The values of the column.
 	 */
-	public function generate_col( ?string $query = null, int $x = 0, int $batch_size = 50 ): Generator {
+	public static function generate_col( ?string $query = null, int $x = 0, int $batch_size = 50 ): Generator {
 		yield from self::run_batched_query( $query, $batch_size, static function ( string $run_query ) use ( $x ) {
 			return self::get_col( $run_query, $x );
 		} );

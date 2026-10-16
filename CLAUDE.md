@@ -147,10 +147,8 @@ The library is designed to be included via Strauss for namespace isolation in Wo
 - Use `attachMeta()` for efficient meta queries instead of multiple joins
 - The library generates SQL using WordPress's `prepare()` method for security
 
-### Recent Updates (v1.0.8)
-- Added `DB::generate_results()` and `DB::generate_col()` for handling large result sets with bounded queries
-- PHP 8.1 compatibility improvements
-- Better type safety in docblocks
+### Release History
+See `CHANGELOG.md`.
 
 ## CI/CD
 
