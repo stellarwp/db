@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file. This projec
 - `DB::rollback()` rolls back to the current savepoint when nested, and issues a real `ROLLBACK` only at the outermost level.
 - `tests-php.yml` ensure slic runs in PHP 7.4.
 
-## [1.0.8] TBD
+## [1.0.8] 2024-02-23
 
 * Feat - Add the `DB::generate_results` and `DB::generate_col` methods to the `DB` class to fetch all results matching an unbounded query with a set of bounded queries.
 
