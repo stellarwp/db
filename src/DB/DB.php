@@ -46,6 +46,16 @@ class DB {
 	private static $provider;
 
 	/**
+	 * Current transaction nesting depth.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @var int
+	 */
+	private static $transactionDepth = 0;
+
+
+	/**
 	 * Initializes the service provider.
 	 *
 	 * @since 1.0.0
@@ -58,6 +68,17 @@ class DB {
 		self::$provider = new Database\Provider();
 		self::$provider->register();
 		self::$initialized = true;
+	}
+
+	/**
+	 * Returns the current transaction nesting depth.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return int
+	 */
+	public static function transactionLevel() {
+		return self::$transactionDepth;
 	}
 
 	/**
@@ -211,39 +232,72 @@ class DB {
 	}
 
 	/**
-	 * Manually starts a transaction
+	 * Manually starts a transaction.
+	 *
+	 * Nested calls create savepoints instead of starting a new transaction,
+	 * preventing MySQL's implicit commit behavior.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added savepoint support for nested transactions.
 	 *
 	 * @return void
 	 */
 	public static function beginTransaction() {
 		global $wpdb;
-		$wpdb->query( 'START TRANSACTION' );
+
+		if ( self::$transactionDepth === 0 ) {
+			$wpdb->query( 'START TRANSACTION' );
+		} else {
+			$wpdb->query( 'SAVEPOINT sp_' . self::$transactionDepth );
+		}
+
+		self::$transactionDepth++;
 	}
 
 	/**
-	 * Manually rolls back a transaction
+	 * Manually rolls back a transaction.
+	 *
+	 * When nested, rolls back to the current savepoint. When at the outermost
+	 * level, issues a real ROLLBACK.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added savepoint support for nested transactions.
 	 *
 	 * @return void
 	 */
 	public static function rollback() {
 		global $wpdb;
-		$wpdb->query( 'ROLLBACK' );
+
+		self::$transactionDepth = max( 0, self::$transactionDepth - 1 );
+
+		if ( self::$transactionDepth === 0 ) {
+			$wpdb->query( 'ROLLBACK' );
+		} else {
+			$wpdb->query( 'ROLLBACK TO SAVEPOINT sp_' . self::$transactionDepth );
+		}
 	}
 
 	/**
-	 * Manually commits a transaction
+	 * Manually commits a transaction.
+	 *
+	 * When nested, releases the current savepoint. When at the outermost
+	 * level, issues a real COMMIT.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added savepoint support for nested transactions.
 	 *
 	 * @return void
 	 */
 	public static function commit() {
 		global $wpdb;
-		$wpdb->query( 'COMMIT' );
+
+		self::$transactionDepth = max( 0, self::$transactionDepth - 1 );
+
+		if ( self::$transactionDepth === 0 ) {
+			$wpdb->query( 'COMMIT' );
+		} else {
+			$wpdb->query( 'RELEASE SAVEPOINT sp_' . self::$transactionDepth );
+		}
 	}
 
 	/**
