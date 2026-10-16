@@ -85,6 +85,7 @@ class DB {
 	 * Runs the dbDelta function and returns a WP_Error with any errors that occurred during the process
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.1 Loads wp-admin/includes/upgrade.php here instead of before every query.
 	 *
 	 * @param $delta
 	 *
@@ -96,6 +97,12 @@ class DB {
 	public static function delta( $delta ) {
 		return self::runQueryWithErrorChecking(
 			function () use ( $delta ) {
+				/*
+				 * Loaded only here: on multisite, upgrade.php pulls in wp-admin/includes/ms.php, and a later
+				 * plain require of ms.php by other code fatals with "Cannot redeclare check_upload_size()".
+				 */
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
 				return dbDelta( $delta );
 			}
 		);
@@ -325,7 +332,6 @@ class DB {
 	 */
 	private static function runQueryWithErrorChecking( $queryCaller ) {
 		global $wpdb, $EZSQL_ERROR;
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		$errorCount    = is_array( $EZSQL_ERROR ) ? count( $EZSQL_ERROR ) : 0;
 		$hasShowErrors = $wpdb->hide_errors();

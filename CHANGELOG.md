@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [Unreleased]
+
+### Fixed
+- `wp-admin/includes/upgrade.php` is now loaded only by `DB::delta()`, not before every query. On multisite, loading it on front-end requests also loaded `wp-admin/includes/ms.php`, which could cause a `Cannot redeclare check_upload_size()` fatal when another plugin or theme later required that file.
+
 ## [1.3.0] - 2026-02-25
 
 ### Added
