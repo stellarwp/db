@@ -68,7 +68,7 @@ composer require stellarwp/db
 - [Inherited from `$wpdb`](#inherited-from-wpdb)
   - [`get_var()`](#get_var)
   - [`get_col()`](#get_col)
-  - [`generate_col()`](#get_col)
+  - [`generate_col()`](#generate_col)
   - [`get_results()`](#get_results)
   - [`generate_results()`](#generate_results)
   - [`esc_like()`](#esc_like)

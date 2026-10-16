@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [1.3.1] - 2026-10-16
+
+### Fixed
+- PHP 8.4 compatibility: parameters with a `null` default are now explicitly nullable in `DB::generate_results()`, `DB::generate_col()` and `DatabaseQueryException::__construct()`.
+- `DB::generate_col()` is now static. Calling it as documented, `DB::generate_col()`, threw an `Error` on PHP 8.0+.
+
+### Changed
+- Documented `DB::get_results()`, `DB::generate_results()` and `DB::generate_col()` in the README.
+
 ## [1.3.0] - 2026-02-25
 
 ### Added
