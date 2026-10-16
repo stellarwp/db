@@ -85,7 +85,7 @@ class DB {
 	 * Runs the dbDelta function and returns a WP_Error with any errors that occurred during the process
 	 *
 	 * @since 1.0.0
-	 * @since TBD Loads wp-admin/includes/upgrade.php here instead of before every query.
+	 * @since 1.3.1 Loads wp-admin/includes/upgrade.php here instead of before every query.
 	 *
 	 * @param $delta
 	 *
