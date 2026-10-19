@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [Unreleased]
+
+### Changed
+- **Breaking:** `DB::generate_col()` is now static, so the documented `DB::generate_col()` call works on PHP 8.0+. Subclasses that override it must declare it `static`.
+- Tests run on PHP 7.4 and 8.4 in CI.
+
 ## [1.3.0] - 2026-02-25
 
 ### Added

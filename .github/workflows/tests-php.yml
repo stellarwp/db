@@ -4,9 +4,13 @@ on:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
         suite:
           - wpunit
+        php:
+          - '7.4'
+          - '8.4'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -50,7 +54,7 @@ jobs:
           ${SLIC_BIN} build-subdir off
           ${SLIC_BIN} xdebug off
           ${SLIC_BIN} debug on
-          ${SLIC_BIN} php-version set 7.4 --skip-rebuild
+          ${SLIC_BIN} php-version set ${{ matrix.php }} --skip-rebuild
           ${SLIC_BIN} info
           ${SLIC_BIN} config
       - name: Set up StellarWP DB
