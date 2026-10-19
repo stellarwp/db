@@ -2,16 +2,26 @@
 /**
  * Loads WordPress the way a front-end request does, runs one DB call and prints the result as JSON.
  *
- * Run as a separate process because the wpunit bootstrap loads every wp-admin/includes file up front.
+ * Run as a separate process because the test bootstrap loads every wp-admin/includes file up front.
+ * The database and multisite settings come from the environment, read by the slic `wp-config.php`.
  *
- * Usage: php run-in-front-end-request.php <abspath> <query|delta> [table]
+ * In `query` mode it then requires `wp-admin/includes/ms.php` the way other plugins and themes do. That
+ * fatals with "Cannot redeclare check_upload_size()" when the query already loaded `ms.php` through
+ * `upgrade.php`, so the JSON is printed only if the request survives.
+ *
+ * Usage: php run-in-front-end-request.php <abspath> <host> <query|delta> [table]
  */
 
-list( , $abspath, $mode ) = $argv;
-$table = isset( $argv[3] ) ? $argv[3] : '';
+list( , $abspath, $host, $mode ) = $argv;
+$abspath = rtrim( $abspath, '/' );
+$table   = isset( $argv[4] ) ? $argv[4] : '';
+
+// ms-settings.php picks the site from the request.
+$_SERVER['HTTP_HOST']   = $host;
+$_SERVER['REQUEST_URI'] = '/';
 
 require dirname( __DIR__, 2 ) . '/vendor/autoload.php';
-require rtrim( $abspath, '/' ) . '/wp-load.php';
+require $abspath . '/wp-load.php';
 
 use StellarWP\DB\DB;
 
@@ -30,10 +40,17 @@ if ( 'delta' === $mode ) {
 	$table_exists = null;
 }
 
+$upgrade_loaded_after = in_array( $abspath . '/wp-admin/includes/upgrade.php', get_included_files(), true );
+
+if ( 'query' === $mode ) {
+	require $abspath . '/wp-admin/includes/ms.php';
+}
+
 echo json_encode(
 	[
+		'is_multisite'          => is_multisite(),
 		'upgrade_loaded_before' => $upgrade_loaded_before,
-		'upgrade_loaded_after'  => in_array( rtrim( $abspath, '/' ) . '/wp-admin/includes/upgrade.php', get_included_files(), true ),
+		'upgrade_loaded_after'  => $upgrade_loaded_after,
 		'table_exists'          => $table_exists,
 	]
 );
