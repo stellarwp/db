@@ -68,7 +68,7 @@ composer require stellarwp/db
 - [Inherited from `$wpdb`](#inherited-from-wpdb)
   - [`get_var()`](#get_var)
   - [`get_col()`](#get_col)
-  - [`generate_col()`](#get_col)
+  - [`generate_col()`](#generate_col)
   - [`get_results()`](#get_results)
   - [`generate_results()`](#generate_results)
   - [`esc_like()`](#esc_like)
@@ -999,6 +999,8 @@ $meta_values = DB::get_col(
 
 Returns a Generator that will produce an array of values for the column for the given query.  
 Differrently from the `get_col()` method, this method will run unbounded queries (queries without a `LIMIT` set) in batches, ensuring as-efficient-as-possible use of the database and memory.
+
+> On PHP 8 and later, call it on an instance, `( new DB() )->generate_col( ... )`: the static call below throws an `Error` until 2.0.0 makes the method static.
 
 ```php
 $meta_values = DB::generate_col(

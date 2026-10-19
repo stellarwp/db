@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
+## [1.3.1] - 2026-10-19
+
+### Fixed
+- PHP 8.4 compatibility: parameters with a `null` default are now explicitly nullable in `DB::generate_results()`, `DB::generate_col()` and `DatabaseQueryException::__construct()`.
+- `wp-admin/includes/upgrade.php` is now loaded only by `DB::delta()`, not before every query. On multisite, loading it on front-end requests also loaded `wp-admin/includes/ms.php`, which could cause a `Cannot redeclare check_upload_size()` fatal when another plugin or theme later required that file.
+
+### Changed
+- Documented `DB::get_results()`, `DB::generate_results()` and `DB::generate_col()` in the README.
+
 ## [1.3.0] - 2026-02-25
 
 ### Added
@@ -13,7 +22,7 @@ All notable changes to this project will be documented in this file. This projec
 - `DB::rollback()` rolls back to the current savepoint when nested, and issues a real `ROLLBACK` only at the outermost level.
 - `tests-php.yml` ensure slic runs in PHP 7.4.
 
-## [1.0.8] 2024-02-23
+## [1.1.1] - 2024-06-06
 
 * Feat - Add the `DB::generate_results` and `DB::generate_col` methods to the `DB` class to fetch all results matching an unbounded query with a set of bounded queries.
 
