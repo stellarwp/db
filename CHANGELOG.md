@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. This projec
 ### Fixed
 - PHP 8.4 compatibility: parameters with a `null` default are now explicitly nullable in `DB::generate_results()`, `DB::generate_col()` and `DatabaseQueryException::__construct()`.
 - `DB::generate_col()` is now static. Calling it as documented, `DB::generate_col()`, threw an `Error` on PHP 8.0+.
+- `wp-admin/includes/upgrade.php` is now loaded only by `DB::delta()`, not before every query. On multisite, loading it on front-end requests also loaded `wp-admin/includes/ms.php`, which could cause a `Cannot redeclare check_upload_size()` fatal when another plugin or theme later required that file.
 
 ### Changed
 - Documented `DB::get_results()`, `DB::generate_results()` and `DB::generate_col()` in the README.
