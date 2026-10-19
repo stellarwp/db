@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project adhere to the [Semantic Versioning](http://semver.org/) standard.
 
-## [1.3.1] - 2026-10-16
+## [1.3.1] - 2026-10-19
 
 ### Fixed
 - PHP 8.4 compatibility: parameters with a `null` default are now explicitly nullable in `DB::generate_results()`, `DB::generate_col()` and `DatabaseQueryException::__construct()`.
@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file. This projec
 - `DB::rollback()` rolls back to the current savepoint when nested, and issues a real `ROLLBACK` only at the outermost level.
 - `tests-php.yml` ensure slic runs in PHP 7.4.
 
-## [1.0.8] 2024-02-23
+## [1.1.1] - 2024-06-06
 
 * Feat - Add the `DB::generate_results` and `DB::generate_col` methods to the `DB` class to fetch all results matching an unbounded query with a set of bounded queries.
 
