@@ -476,7 +476,6 @@ class DB {
 	 * Get all the values in a column from a query in batches.
 	 *
 	 * @since 1.1.1
-	 * @since 1.3.1 Made the method static.
 	 *
 	 * @param string|null $query      The SQL query.
 	 * @param int         $x          The column number to return.
@@ -484,7 +483,7 @@ class DB {
 	 *
 	 * @return Generator<mixed> The values of the column.
 	 */
-	public static function generate_col( ?string $query = null, int $x = 0, int $batch_size = 50 ): Generator {
+	public function generate_col( ?string $query = null, int $x = 0, int $batch_size = 50 ): Generator {
 		yield from self::run_batched_query( $query, $batch_size, static function ( string $run_query ) use ( $x ) {
 			return self::get_col( $run_query, $x );
 		} );
